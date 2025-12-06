@@ -4,11 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORA! Data Lab - Istruzione</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* --- BRAND VARIABLES --- */
+        :root {
+            --ora-yellow: #FFD958;
+            --ora-black: #000000;
+            --ora-white: #FFFFFF;
+            --ora-gray: #F5F5F5;
+            --ora-success: #90EE90;
+            --ora-error: #FFB6B6;
+        }
+
+        /* --- RESET & BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; color: var(--ora-black); background-color: var(--ora-white); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* --- UTILITIES --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; width: 100%; }
+        .section { margin-bottom: 80px; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 30px; text-align: center; text-transform: uppercase; }
+        .hidden { display: none !important; }
+        
+        /* Buttons */
+        .btn { background-color: var(--ora-yellow); color: var(--ora-black); border: 2px solid var(--ora-black); padding: 12px 30px; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 0.2s; display: inline-block; font-size: 1rem; }
+        .btn:hover { background-color: var(--ora-black); color: var(--ora-white); transform: translateY(-2px); box-shadow: 4px 4px 0 var(--ora-black); }
+        .btn-secondary { background-color: var(--ora-black); color: var(--ora-white); }
+        .btn-secondary:hover { background-color: var(--ora-yellow); color: var(--ora-black); }
+
+        /* --- NAVIGATION --- */
+        .navbar { background-color: var(--ora-black); padding: 15px 0; color: var(--ora-white); position: sticky; top: 0; z-index: 100; }
+        .navbar .container { padding: 0 20px; margin: 0 auto; display: flex; align-items: center; } 
+        .navbar a { color: var(--ora-yellow); text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; }
+        .navbar a:hover { text-decoration: underline; }
+
+        /* --- HERO --- */
+        .hero { background-color: var(--ora-yellow); color: var(--ora-black); padding: 80px 20px; text-align: center; border-bottom: 3px solid var(--ora-black); }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: -1px; }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; font-weight: 500; }
+
+        /* --- QUIZ --- */
+        .quiz-container { background-color: var(--ora-gray); padding: 50px 0; border-bottom: 2px solid var(--ora-black); }
+        .question-card { background-color: var(--ora-white); border: 2px solid var(--ora-black); border-radius: 8px; padding: 30px; margin: 20px auto; max-width: 800px; box-shadow: 6px 6px 0 var(--ora-black); }
+        .question-text { font-size: 1.4rem; font-weight: 600; margin-bottom: 25px; line-height: 1.4; }
+        .option { background-color: var(--ora-white); border: 2px solid var(--ora-black); padding: 15px 20px; margin: 12px 0; border-radius: 4px; cursor: pointer; transition: all 0.2s; font-weight: 500; font-size: 1.1rem; }
+        .option:hover { background-color: var(--ora-yellow); transform: translateX(5px); }
+        .option.selected { background-color: var(--ora-yellow); font-weight: 700; border-width: 3px; }
+        .option.correct { background-color: var(--ora-success); border-color: #006400; }
+        .option.incorrect { background-color: var(--ora-error); border-color: #8B0000; }
+        .feedback { margin-top: 25px; padding: 20px; border: 2px solid var(--ora-black); border-radius: 4px; animation: fadeIn 0.3s ease-in; }
+        .feedback.correct { background-color: var(--ora-success); }
+        .feedback.incorrect { background-color: var(--ora-error); }
+        .results-summary { text-align: center; padding: 20px; }
+        .results-summary .score { font-size: 5rem; font-weight: 700; color: var(--ora-yellow); -webkit-text-stroke: 2px var(--ora-black); margin: 20px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- CHARTS --- */
+        .card { background-color: var(--ora-white); border: 2px solid var(--ora-black); border-radius: 8px; padding: 30px; box-shadow: 6px 6px 0 var(--ora-black); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 40px 0; }
+        .metric-card { background-color: var(--ora-gray); border: 2px solid var(--ora-black); padding: 25px; text-align: center; border-radius: 4px; }
+        .metric-value { font-size: 2.8rem; font-weight: 700; line-height: 1; }
+        .metric-label { font-size: 0.9rem; font-weight: 600; margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .chart-container { position: relative; margin: 30px 0; height: 450px; width: 100%; }
+
+        /* --- FOOTER --- */
+        .footer { background-color: var(--ora-black); color: var(--ora-white); padding: 60px 20px; text-align: center; margin-top: auto; border-top: 5px solid var(--ora-yellow); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .metrics-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 300px; }
+            .question-text { font-size: 1.2rem; }
+            .container { padding: 30px 15px; }
+        }
+    </style>
 </head>
 <body>
     
@@ -92,6 +170,144 @@
         </div>
     </footer>
 
-    <script src="js/istruzione.js"></script>
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+    /**
+     * ORA! Data Lab - Education Logic
+     */
+    const eduData = {
+        social_mobility: [
+            { x: 1.2, y: 230, r: 15, label: 'Liceo Classico', type: 'Liceo' },
+            { x: 0.8, y: 220, r: 25, label: 'Liceo Scientifico', type: 'Liceo' },
+            { x: 0.1, y: 205, r: 10, label: 'Liceo Umanistico', type: 'Liceo' },
+            { x: -0.3, y: 195, r: 30, label: 'Istituti Tecnici', type: 'Tecnico' },
+            { x: -0.8, y: 175, r: 20, label: 'Istituti Professionali', type: 'Professionale' }
+        ],
+        salaries: {
+            labels: ['Germania', 'Olanda', 'Spagna', 'Media UE', 'Francia', 'Italia'],
+            values: [72000, 67000, 49000, 45000, 36000, 34000], 
+            colors: ['#cccccc', '#cccccc', '#cccccc', '#FFD958', '#cccccc', '#000000']
+        },
+        quiz: [
+            { question: "Qual è la percentuale di studenti degli Istituti Professionali con genitori non diplomati?", options: ["Circa 15%", "Circa 25%", "Circa 42%", "Oltre il 60%"], correct: 2, explanation: "Il 42% degli studenti dei professionali ha genitori senza diploma, contro meno del 10% nei licei." },
+            { question: "Come si posiziona l'Italia per numero di laureati (25-34 anni) rispetto alla media OCSE?", options: ["Sopra la media", "In linea con la media", "Tra gli ultimi posti"], correct: 2, explanation: "L'Italia è penultima in Europa per numero di laureati, superata solo dalla Romania." },
+            { question: "Quanto guadagna un docente italiano di scuola superiore rispetto a un collega tedesco (a parità di potere d'acquisto)?", options: ["Lo stesso", "Circa il 10% in meno", "Meno della metà"], correct: 2, explanation: "Un docente tedesco guadagna oltre il doppio (€72k vs €34k) dopo 15 anni di carriera." }
+        ]
+    };
+
+    const quizState = { current: 0, score: 0, answers: new Array(eduData.quiz.length).fill(null) };
+
+    function initQuiz() { renderQuestion(); }
+
+    function renderQuestion() {
+        const container = document.getElementById('quizContent');
+        if(!container) return;
+        
+        const q = eduData.quiz[quizState.current];
+        const isAnswered = quizState.answers[quizState.current] !== null;
+        
+        document.getElementById('quizProgress').textContent = `Domanda ${quizState.current + 1} di ${eduData.quiz.length}`;
+        
+        let html = `<div class="question-card"><div class="question-text">${q.question}</div><div class="options">`;
+        q.options.forEach((opt, i) => {
+            let cls = 'option';
+            if(isAnswered) {
+                if(i === q.correct) cls += ' correct';
+                else if(i === quizState.answers[quizState.current]) cls += ' incorrect';
+            }
+            html += `<div class="${cls}" onclick="${isAnswered ? '' : `selectAnswer(${i})`}">${opt}</div>`;
+        });
+        
+        if(isAnswered) {
+            const isCorrect = quizState.answers[quizState.current] === q.correct;
+            html += `<div class="feedback ${isCorrect ? 'correct' : 'incorrect'}"><strong>${isCorrect ? 'Esatto!' : 'Sbagliato.'}</strong><p>${q.explanation}</p></div>`;
+        }
+        
+        html += '</div></div>';
+        container.innerHTML = html;
+        
+        document.getElementById('nextBtn').textContent = quizState.current === eduData.quiz.length - 1 ? 'Vedi Risultati' : 'Successiva →';
+        document.getElementById('nextBtn').classList.remove('hidden');
+    }
+
+    function selectAnswer(i) {
+        if(quizState.answers[quizState.current] !== null) return;
+        quizState.answers[quizState.current] = i;
+        if(i === eduData.quiz[quizState.current].correct) quizState.score++;
+        renderQuestion();
+    }
+
+    function nextQuestion() {
+        if(quizState.answers[quizState.current] === null) return alert("Seleziona una risposta.");
+        if(quizState.current < eduData.quiz.length - 1) { quizState.current++; renderQuestion(); } 
+        else showResults();
+    }
+
+    function showResults() {
+        const container = document.getElementById('quizContent');
+        const pct = Math.round((quizState.score / eduData.quiz.length) * 100);
+        container.innerHTML = `<div class="results-summary"><h2>Risultato</h2><div class="score">${pct}%</div><p>Risposte corrette: ${quizState.score}/${eduData.quiz.length}</p></div>`;
+        document.getElementById('nextBtn').classList.add('hidden');
+        document.getElementById('restartBtn').classList.remove('hidden');
+    }
+
+    function restartQuiz() {
+        quizState.current = 0; quizState.score = 0; quizState.answers.fill(null);
+        renderQuestion();
+        document.getElementById('restartBtn').classList.add('hidden');
+    }
+
+    function initMobilityChart() {
+        const ctx = document.getElementById('mobilityChart');
+        if(!ctx) return;
+        new Chart(ctx, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Tipologie di Scuole',
+                    data: eduData.social_mobility,
+                    backgroundColor: (ctx) => {
+                        const type = ctx.raw?.type;
+                        return type === 'Liceo' ? '#FFD958' : (type === 'Tecnico' ? '#000000' : '#FF0000');
+                    },
+                    borderColor: '#333', borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.raw.label}: Punteggio ${ctx.raw.y} (ESCS: ${ctx.raw.x})` } }, legend: { display: false } },
+                scales: { x: { title: { display: true, text: 'Background Socio-Economico (Indice ESCS)' }, min: -1.5, max: 1.5 }, y: { title: { display: true, text: 'Punteggio Medio INVALSI (Matematica)' }, min: 150, max: 250 } }
+            }
+        });
+    }
+
+    function initSalaryChart() {
+        const ctx = document.getElementById('salaryChart');
+        if(!ctx) return;
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: eduData.salaries.labels,
+                datasets: [{
+                    label: 'Stipendio Annuo Lordo (PPS)',
+                    data: eduData.salaries.values,
+                    backgroundColor: eduData.salaries.colors,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { grid: { color: '#f0f0f0' } } }
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initQuiz();
+        initMobilityChart();
+        initSalaryChart();
+    });
+    </script>
 </body>
 </html>
