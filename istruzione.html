@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORA! Data Lab - Istruzione</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html">← Torna alla Home</a>
+            <span style="margin-left: auto; opacity: 0.7;">ORA! Data Lab</span>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Istruzione: L'Ascensore Sociale è Rotto?</h1>
+            <p>In Italia, il destino scolastico è spesso scritto alla nascita. <br>Analizziamo i dati su disuguaglianze, competenze e stipendi.</p>
+        </div>
+    </header>
+
+    <!-- QUIZ -->
+    <section class="quiz-container">
+        <div class="container">
+            <h2 class="section-title">Step 1: Sfida i Luoghi Comuni</h2>
+            <div id="quizProgress" style="text-align: center; margin-bottom: 10px;">Caricamento...</div>
+            <div id="quizContent"></div>
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+                <button class="btn" id="nextBtn" onclick="nextQuestion()">Inizia Quiz</button>
+                <button class="btn btn-secondary hidden" id="restartBtn" onclick="restartQuiz()">Ricomincia</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHART 1: SOCIAL MOBILITY -->
+    <section class="container section">
+        <h2 class="section-title">Step 2: Il Divario di Classe</h2>
+        <div class="card">
+            <h3 style="text-align: center; margin-bottom: 20px;">Performance Scolastica vs Background Familiare</h3>
+            <p style="margin-bottom: 20px; text-align: center;">
+                Ogni bolla è un tipo di scuola. Sull'asse orizzontale il <strong>ceto sociale</strong> (ESCS), su quello verticale i <strong>risultati</strong>.
+                <br><small>Nota come le scuole con studenti più ricchi (Giallo) ottengono risultati migliori rispetto ai professionali (Rosso).</small>
+            </p>
+            
+            <div class="chart-container">
+                <canvas id="mobilityChart"></canvas>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">42%</div>
+                    <div class="metric-label">Studenti Professionali con genitori non diplomati</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">46%</div>
+                    <div class="metric-label">Studenti Liceali con genitori laureati</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHART 2: SALARIES -->
+    <section class="container section">
+        <h2 class="section-title">Step 3: La Crisi dei Docenti</h2>
+        <div class="card">
+            <h3 style="text-align: center; margin-bottom: 20px;">Stipendi Docenti dopo 15 anni (Confronto UE)</h3>
+            <p style="text-align: center; margin-bottom: 20px;">
+                Retribuzione lorda annua a parità di potere d'acquisto.
+            </p>
+            <div class="chart-container" style="height: 350px;">
+                <canvas id="salaryChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p><strong>ORA! Data Lab</strong> - Istruzione v1.0</p>
+            <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.8;">
+                Dati elaborati da fonti ufficiali: INVALSI, Eurydice, OCSE-PISA.
+            </p>
+            <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">
+                &copy; 2025 ORA! Partito Politico.
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/istruzione.js"></script>
+</body>
+</html>
