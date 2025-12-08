@@ -1,0 +1,22 @@
+
+formalize the following ideas: 
+
+
+Spesa:
+- Mostrare visivamente quale percentuali del reddito vengono dedicate ai diversi capitoli di spesa. User può modificare il suo reddito e il suo tipo di contratto
+
+
+Spesa/Pensioni: 
+- 
+
+Spesa/Bonus: 
+
+Spesa/
+
+Energia: 
+- Quanta CO2 è emessa (anche in relazione agli obiettivi di sostenibilità) cambiando il mix energetico del paese (due scenari fissi: oggi, quello che vorremmo)
+- 
+
+
+Istruzione: 
+
