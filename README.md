@@ -1,3 +1,7 @@
+Nota su questa repo: A parte la presentazione del progetto (il seguito di questo README), il resto del contenuto è probabilmente di scarsa rilevanza. I file html sono stati scritti da un LLM, per poter trasmettere un'idea più immediata e concreta del progetto. In /doc si trovano un documento "tecnico" (scritto per permettere al sottoscritto di farsi un'idea della fattibilità tecnica -- pensavo di dover fare quasi tutto da solo) e tre PDFs con le tesi programmatiche scaricati direttamente dal sito. 
+
+
+
 # ORA-Data-Lab
 Piattaforma digitale interattiva progettata per rendere accessibili e comprensibili le grandi sfide socio-economiche dell'Italia. 
 Basata su GitHub Pages e librerie JS (D3.js, SurveyJS) per la visualizzazione di dati, integra API (es. ISTAT) tramite script Python che generano dataset JSON, offrendo sondaggi per argomento -- in pieno stile Gapminder -- e grafici intuitivi e interattivi su macrotemi da definire \[Sistema Pensionistico, Settore Energetico, Capitoli di Spesa PA, Sistema Scolastico, Indici Macroeconomici\].
