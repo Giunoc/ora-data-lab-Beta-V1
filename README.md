@@ -1,5 +1,20 @@
+Active team
+
+gianmariopoljak4@gmail.com  
+baccegasandro@gmail.com  
+bassetto.federico@gmail.com  
+davide.sabbion94@gmail.com  
+teslah2o@gmail.com (Jacopo Acquarelli)  
+francesco.disalvo99@gmail.com  
+
+nazarenolecis@gmail.com  
+corinnacaldini@gmail.com  
+giuseppe.nocera.mail@gmail.com  
+
+
 Nota su questa repo: A parte la presentazione del progetto (il seguito di questo README), il resto del contenuto è probabilmente di scarsa rilevanza. I file html sono stati scritti da un LLM, per poter trasmettere un'idea più immediata e concreta del progetto. In /doc si trovano un documento "tecnico" (scritto per permettere al sottoscritto di farsi un'idea della fattibilità tecnica -- pensavo di dover fare quasi tutto da solo) e tre PDFs con le tesi programmatiche scaricati direttamente dal sito. 
 
+---
 
 
 # ORA-Data-Lab
