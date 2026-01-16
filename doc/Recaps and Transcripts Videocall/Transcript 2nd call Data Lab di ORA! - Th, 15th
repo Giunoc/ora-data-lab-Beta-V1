@@ -1,0 +1,1953 @@
+Recap and Transcription 2nd call Data Lab di ORA! - Th, 15th of January 2026
+
+
+1. Obiettivi e Filosofia del Progetto
+Trasformare i dati grezzi in uno strumento di storytelling interattivo. 
+
+Creare un "Data Lab" con grafici dinamici e manipolabili tramite slider (scenari di simulazione).
+
+Utilizzare quiz e pillole di "senso comune" (stile Gapminder) per scardinare pregiudizi statistici (es. percezione vs realtà su immigrazione o pensioni).
+
+Fornire uno strumento utile ai delegati sul territorio (es. visualizzazioni su tablet) per spiegare problemi complessi in modo intuitivo.
+
+2. Decisioni Tecniche e Stack
+Architettura Dati: Si è discusso del problema dell'instabilità delle API ISTAT. La soluzione preferita è un approccio intermedio: estrarre i dati (RAW), pulirli tramite script e salvarli in locale (o su GitHub in formato Parquet/JSON) per garantire velocità e stabilità al sito.
+
+Trasparenza: Ogni grafico deve avere il link alla fonte originale e il link allo script di manipolazione del dato (Open Data e Verificabilità).
+
+Tecnologie:
+
+Framework: Scelto React (rispetto ad Angular) per la maggior disponibilità di volontari.
+
+Build Tool: Si utilizzerà Vite per un'applicazione SPA (Single Page Application) leggera.
+
+Styling: Utilizzo di Tailwind CSS per uniformare l'interfaccia.
+
+3. Tematiche Prioritarie Analizzate
+
+Pensioni: Sostenibilità demografica e impatto dell'immigrazione.
+
+Immigrazione: Focus sulla popolazione regolare, impatto sul debito pubblico e sulla demografia (Gianmarco Mancinelli ha offerto supporto per tradurre il paper in dati).
+
+Crisi Abitativa (Caro Affitti): Analisi dell'indice di abitabilità (regola del 30% del reddito), impatto di Airbnb (overtourism) e mancanza di studentati. Corinna ha condiviso dati su come il turismo stia erodendo l'offerta per residenti e lavoratori.
+
+ORA! Data Lab Implementation Plan.md: Contiene la roadmap strategica discussa nelle call.
+
+Tesi Programmatiche/: Sono presenti i documenti PDF ufficiali su Energia, Istruzione e Crescita, che fungono da base scientifica per i dati da visualizzare.
+
+Stile: Il file css/style.css indica un primo sforzo di uniformazione estetica, coerentemente con la decisione di usare Tailwind/CSS standard.
+
+Prossimi Passi (Action Plan)
+Scelta autonoma di 2-3 topics per eventuale MVP 
+
+Integrazione dei dati reali: Sostituire i dati "segnaposto" nei file JS con i dati estratti dai paper e validati dai coordinatori tematici.
+
+Setup di GitHub: Utilizzare la repository come hub per caricare i link alle fonti e i file di dati elaborati.
+
+Creazione dei Quiz: Implementare la logica dei quiz nella landing page per aumentare l'engagement.
+
+
+
+
+
+
+
+
+TRANSCRIPT: 
+
+Oggi beneficieremo dei potenti mezzi di Meet Pro, quindi no timer e m
+0:16
+come si dice recap automatico fatto da da Gemini
+0:22
+che sicuramente lo lo farà meglio di me questo poco, ma ma sicuro, però ovvie
+0:28
+ragioni. Ciao, buona serata a tutti. Ciao
+1:49
+Già che siamo qui, m considerazioni su quanto ci siamo detti la volta scorsa su
+1:55
+eh stavo rileggendo proprio Ora il insomma il il messaggio di epilogo che
+2:00
+avevo scritto è messo sul gruppo che mi sembra il primo punto di partenza che
+2:06
+potremmo a questo punto ricominciare e a mio avviso le i discorsi, no,
+2:16
+segreteria, come impostarlo, se per gli associati o per cioè per gli iscritti o
+2:21
+per tutti, quello diventa secondario. sarebbe invece utile fare il discorso
+2:26
+tecnico che si stava concludendo la volta scorsa.
+2:32
+Ciao Davide, ciao. Buonasera a tutti.
+2:53
+Eh, Sandro, mi sa non ti si sente. Ora, mi sentite? Ok, perfetto.
+3:07
+Eh sì, anche mi sembra inutile, appunto, finché non c'è niente da presentare,
+3:12
+decidere chi deve vedere cosa, cioè intanto si costruisce qualcosa, poi ste
+3:18
+decisioni verranno prese mh
+3:21
+mh. E dal punto di vista tecnico c'era, così giusto per parlare, poi appena
+3:25
+arrivano tutti ricominciamo, c'era la questione fondamentale era eh come
+3:33
+gestire il le fonti del tutto, come posso dire,
+3:40
+m instabili, si può dire del dei di Instat e tutto il resto, no? perché si
+3:49
+diceva database nostro oppure PI con pipeline del dato. Ovviamente la seconda
+3:54
+per questione di ehm fonte, no, di certezza del dato era
+4:01
+preferibile, però c'è l'unico problema dell'instabilità
+4:04
+e quindi quindi quello mi sembrava essere poi alla fine il nodo della
+4:09
+questione. Corretto?
+4:17
+Sì, mi ricordo che c'era il discorso di questa cosa e sì, mi sembra m appunto
+4:23
+che m da qualche parte dobbiamo mettere dei dati che sono in maniera più chiara
+4:28
+possibile eh trasformati e che però siamo sicuri che sono lì e sono
+4:35
+disponibili per il sito senza dover richiedere pi esterne, cose del genere,
+4:40
+cioè quello mi sembra abbastanza fondamentale.
+4:46
+Poi sul dove metterle, su un database o direttamente sul bandle JavaScript,
+4:51
+quello è secondario,
+4:55
+capito? Так.
+6:20
+Direi che ci siamo tutti, no? mi pare. Eh, stavo controllando proprio questo
+6:24
+nel sondaggio. Il sondaggio erano otto persone. Mi pare
+6:27
+che una persona abbia abbia detto l'ultimo che non ce la faceva, quindi
+6:32
+sette. Forse Corinna che la vedo connessa su su
+6:39
+salotto Alfa delle infrastrutture. Aspettiamo lei.
+6:43
+No, lei lei arriva purtroppo a se le va bene tra mezz'ora perché aveva un'altra
+6:48
+colla è stata. Ok,
+6:51
+infatti ci ha prestato la stanza e ha anche avviato la registrazione così
+6:56
+prende appunti Gemini. già, già tra l'altro è al lavoro, quindi tutto quello
+7:01
+che diciamo verrà sintetizzato e usato contro di noi.
+7:06
+È usata contro di noi. Qui, giusto per fare il punto dell'altra
+7:17
+volta, la questione è la fonte, dove sta il dato, dove sta la sorgente, dove sta
+7:23
+il backup.
+7:32
+diciamo gli aspetti più meno tecnici via.
+7:39
+Sì, sì, comunque ho controllato e mi sembra ci siamo tutti, però io non avevo
+7:44
+votato, quindi c'è un c'è un considerando che
+7:53
+due persone non potevano non potevano esserci, ne manca ancora una.
+7:57
+Beh, dai, direi di iniziamo così, poi tanto c'è la registrazione.
+8:05
+Sì, esatto. Comunque Paolo, quello era anch'io proporrei di ripartire da quel
+8:12
+punto lì. Intanto ma qualcuno ha per caso avuto tempo di dedicarsici a fare f
+8:18
+qualcosa eventualmente? Comunque sia, il punto
+8:27
+credo sia quello. Alla fine ormai la l'idea generale, no, vi è chiara più o
+8:32
+meno a tutti. si tratta di fare quella quella piccola bozza in cui il dato
+8:40
+viene preso, rielaborato e e poi rappresentato in un modo in un modo
+8:46
+carino. Ecco. Mh
+8:49
+mh. Io avrei voluto m partire a fare qualcosa, però non volevo prendere
+8:54
+troppe decisioni me stesso su tecnologie da usare per content, JavaScript,
+9:01
+eccetera, perché eh di quello abbiamo parlato poco. La scorsa volta abbiamo
+9:05
+più pag parlato appunto di dove devono stare i dati e in generale dei
+9:09
+requirement del progetto eccetera. Eh, quindi sì, non non mi sentivo di
+9:14
+fare magari m un sac prendere un sacco di decisioni e poi mi sarebbe stato
+9:19
+detto no, meglio quest'altra cosa eccetera. Quindi
+9:24
+prefer ho preferito aspettare rispetto a proprio gettarmici a capofitto. Ecco.
+9:30
+Ah, vi posso fare una domanda che non ho
+9:33
+capito. Voi sicuramente ne avete disquisiti. Io mi scuso perché sto
+9:35
+facendo delle domande che probabilmente sono inutili, però l'altra volta non
+9:39
+c'ero e mi tolgo un paio di curiosità. Ma perché dite che il dato è mh
+9:46
+intermittente o comunque non è stabile dai siti in cui
+9:51
+in teoria dovremmo prenderlo? A me è stata spiegata questa cosa. Se
+9:59
+quindi se qualcuno può rispondere tecnicamente è meglio. M
+10:05
+eh sì, diciamo che eh quando tu prendi beh, in ogni caso eh se tu prendi i dati
+10:11
+da ISTA eh di sicuro ci devi fare qualcosa questi
+10:16
+dati perché li devi pulire, li devi sistemare, devi farci qualcosa.
+10:21
+e quindi farlo tra virgolette in real time dove il sito va a prendersi
+10:25
+direttamente a Instant, rielabola e li mostra,
+10:28
+è meglio avere un un qualcosa di intermedio dove
+10:32
+chiaro ci tiene i nostri dati perché sennò se
+10:36
+il sito parla direttamente con Istat dopo magari ISTAT cambia le cose, dopo
+10:41
+non abbiamo pieno controllo di quello che succede, quindi è è molto meglio
+10:45
+avere una cosa di semiautomatica dove qualcuno dice "Ok, prendi i dati". il
+10:49
+sistema verifica che tutto funziona, poi i dati lati ci sono e vanno riaggiornati
+10:53
+ogni tot e fine questo si discuteva la scorsa volta
+11:00
+perché poi ci vorrebbe anche associato al dato vero e proprio anche le
+11:05
+condizioni al contorno. Immagino che Istat poi fornisca, cioè se io ti chiedo
+11:09
+che ore sono, non è solo il dato, non è solo l'orario il dato, ma devo
+11:15
+associarti chi sei tu, io, chi sono, in che fuso orario siamo. Qualcosa che ti
+11:20
+aiuti a capire le condizioni in cui sono stati rilevate i dati. E immagino sia
+11:24
+ISTA che chiunque poi andrà eletto come fonte di dato ufficiale, dovrà erogare.
+11:31
+per dire eh m dati sui vaccini per tirare fuori già subito un tema divisivo
+11:37
+che probabilmente qualcuno ha già ha già estrapolato. sul vaccino,
+11:46
+i dati sui vaccini sono poi corredati dalle condizioni, dal volume di
+11:51
+controllo da e cioè c'è magari un per qualche mega di di CSV c'è poi
+12:00
+un libretto di di test oppure la la classica domanda dell'Istat, quanti non
+12:08
+hanno risposto, quanti hanno risposto l'età media, le telefonate, come
+12:11
+esordivano, eccetera, fanno parte del dato in fanno parte è è parte del dato
+12:17
+in un certo senso. Più che altro ti mettono nelle
+12:20
+condizioni di capire quanto quel dato può essere drogato da dei bias di chi ha
+12:25
+fatto l'indagine. Si spera che cavolo lista non non sia assoggetta, però
+12:29
+comunque ti dà un'informazione in più. Non so se spiegar è chiaro che ogni dato
+12:36
+ha i suoi bias, però alla fine questo progetto non voleva tanto essere un
+12:41
+prendiamo tutti i dati e li rappresentiamo in maniera più possibile,
+12:45
+ma era più un prendiamo i dati che di solito nelle discussioni tipo Nazareno
+12:50
+aveva già fatto una recursosit dove cercava di mettere insieme un sacco di
+12:54
+grafici importanti e cercare di rappresentarli bene per per
+12:59
+maniera divulgativa, insomma. Però dicevo che nel momento in cui si crea il
+13:05
+data lake, la la parte di sorgente, sarebbe bene avere comunque una zona in
+13:10
+cui chiunque voglia eh discutere, anche solo rompere le scatole, diciamo, vabbè,
+13:16
+no, non mi fido di quello che hai detto. Allora, aspetta. Qui ci sono il
+13:20
+l'originale tirato giù dall'Istat il giorno tale con il time stamp l'ha
+13:25
+tirato giù Sandro e e queste sono le condizioni che ci ha dato l'Istat.
+13:31
+quello è il RAW, diciamo. E poi, ehm, allora, io vi dico, in azienda da me,
+13:38
+quando maneggio i dati, di solito me li quando maneggio i miei che che comando
+13:44
+io, mi segno quanti passaggi fanno, quindi c'ho i miei file, zero il dato
+13:51
+grezo e poi via 1 2 3, mano mano che li mastico, li incrocio, li li arricchisco,
+13:58
+li aggrego. un file magari è fatto è partito da dal
+14:03
+row, poi l'ha l'ha rimaneggiato per togliere i campi e pulire diventa uno.
+14:08
+Poi se ha incrociato con un un joint, un merge, qualcosa diventa due
+14:15
+via dicendo. Più o meno così so quante volte il dato è stato rimaneggiato, però
+14:20
+volendo uno può risalire fino allo zero, dice "vabbè, ok, lo zero è questo, c'ho
+14:25
+voglia, mi faccio un download, mi prendo Power Query, invece faccio Power BI,
+14:29
+faccio altri giochi che sono a piacere magari."
+14:37
+Quindi l'idea, secondo me, che è giusta e è di avere giù giustamente tirarli giù
+14:44
+da dai siti da dove partono, fare un un deposito in cui c'è tutto il grezzo più
+14:50
+il le condizioni al contorno e poi da quello partire, secondo me, mantenendo
+14:55
+l'accesso possibile a chi lo vuole di verificare.
+14:59
+Ovviamente fa incazzato. Sì, sì. Cioè, ogni graphic sperierei che
+15:05
+abbia una fonte e un eh cioè due link, uno è la fonte e uno è il nostro codice
+15:12
+che ha manipolato quei dati per pulirli e
+15:15
+eh sì, magari che ti metta nelle nel nel nelle condizioni anche solo per
+15:20
+toglierti una curiosità, per cazzeggiare una sera che non hai che non sai cosa
+15:24
+fare, eccetera, di leggere la fonte di "Ah, sai, proviamo ad aggregare se
+15:28
+quelli con i capelli biondi poi c'hanno la macchina rossa". Eh, vediamo un po'
+15:32
+cosa succede. Vediamo perché a volte magari esce cose
+15:36
+interessanti, a volte ti toglie una curiosità, però ci sta.
+15:40
+M So che è una cosa un po' di merda, ma
+15:43
+quando c'era eravamo sotto Covid, credo che chiunque di noi li abbia masticati
+15:48
+migliaia di volte, incrociati, anche solo per noia, però dici "Vabbè
+15:53
+dai, ogni tanto metto lì, faccio un po' di progressioni, di regressioni, di
+15:58
+curve". Questo si sposa molto bene, tra l'altro,
+16:03
+con quella che è, secondo me, la differenza tra grafico e datalab, no?
+16:11
+Perché almeno poi dipende sta a come si si evolverà il progetto, a quello che
+16:17
+viene fuori questa colla, come chi ci come ci lavorerete, no? come chi Ma
+16:24
+io me lo immaginavo come un grafico dinamico a manipolabile in diversi
+16:29
+parametri, non ovviamente per fare che ne so una regressione, perché ovviamente
+16:34
+m non avrebbe forse senso permettere di fare di fare eh economics, no? a a
+16:42
+chiunque arrivi lì sul sito, però una in una forma molto molto più semplificata
+16:48
+vedere cosa succede se cambi per esempio non mi ricordo gli esempi l'altra volta
+16:52
+era su energia o la anche la piramidia demografica, no? Cosa succede se cambi
+16:57
+la piramide demografica e la sostenibilità del PIL? Cioè farlo vedere
+17:00
+in modo proprio incisivo con un un grafico davanti molto
+17:06
+anche con gli scenari, quindi m sì forzanti che cambiano scenari. Bello,
+17:11
+interessante, mi piace. Sì. E poi magari lì anche per esempio,
+17:16
+no, lo scenario, mettere l'intervallo di confidenza al 95, cioè quello che
+17:20
+vogliamo noi o no? Quello non lo so, perché magari si arricchisce
+17:24
+informazioni, il grafico, ma è una cosa che l'ha detto ai lavori sa che chi
+17:29
+invece non ha detto lavori non gli si può in quel pochi minuti che poi visita
+17:33
+il sito spiegare che ci sono gli intervalli di confidenza, che più ti
+17:36
+muovi avanti se è una cosa una time series, c'ha quelle caratteristiche là,
+17:40
+se no diventa una cosa che ci vogliono decine di ore.
+17:44
+Sì. No, non è che possiamo tutti prendere una laurea in
+17:48
+statistica. Cioè, esatto.
+17:50
+Penso che anche chi li mastica eh, spesso fatica. Comunque non sarebbe
+17:55
+carino, è bello sta cosa degli scenari, sarebbe carino anche dare la possibilità
+17:59
+a ognuno di fare o gli scenari stessi o anche solo l'asis
+18:05
+di aggiungere grafici, magari un ambiente collaborativo. Io, cioè, in in
+18:13
+faccio faccio il figo con i cervelli degli altri perché poi io sta roba non
+18:18
+saprei farla, cioè non è non sono un un matematico, uno statiscopo, quindi mi
+18:24
+occupo di dati da me solo perché e sono più che altro un gestore e quindi
+18:32
+poi mi è toccato anche questo, ma è una cosa che mi diverte, sarebbe carino
+18:38
+dicevo, eh, a dare la possibilità anche di, partendo dal dalle basi dati
+18:45
+condivise, proporre dei grafici, correlazioni, statistiche, bisogna
+18:51
+chiaramente avere gli strumenti, non so, cioè
+18:56
+uno potrebbe anche prendere scaricare, scicarlo in Excel, nel nelle sue
+19:00
+proposte magari c'è il il
+19:05
+una specie di bacheca in cui fai vedere anche solo un'immagine, poi volendo
+19:10
+carichi il il dato vero, dici "Guarda, ho fatto questo pallogramma di questa
+19:15
+roba qua che secondo me è interessante perché è chiara da capire. Magari ogni
+19:21
+tanto qualcuno scorre, dice "No, guarda che e se lo e se lo va a vedere".
+19:25
+Quindi, secondo me, sarebbe carino avere tipo un una zona istituzionale, che sono
+19:31
+quelli che poi utilizzeremmo e utilizzerebbero le persone che comunque
+19:36
+poi devono prendere decisioni, ragionare sulle cose, però sarebbe anche carino
+19:40
+poi una parte in cui questa cosa viene arricchita
+19:45
+da un, lasciatemi dire, lucubrazioni personali,
+19:52
+però io sto buttando parecchio in là la palla con con le vostre capacità, eh,
+19:56
+perché poi dal punto di vista tecnico alzo le mani
+20:04
+a questo punto Ciao Gianmarco. Ehm,
+20:09
+noi c'eravamo presentati, tra l'altro, tutti a parte te, Paolo, avevi detto ora
+20:13
+due che l'anno volte non c'eri. Io sono da sono stato perché adesso sto
+20:20
+cambiando ruolo e quindi è uno dei ruoli che abbandonerò. Sono data manager nella
+20:24
+in una divisione di una multinazionale. Perfetto.
+20:34
+Ehm, io a questo punto riassumo brevissimamente, se siete d'accordo,
+20:39
+a proprio a grandi linee, lo so, ormai è chiarissimo, ma l'idea fondamentalmente
+20:43
+è la seguente: raccogliere i dati grezzi, rielaborarli in dei grafici che
+20:48
+siano interattivi, quindi viene fuori un datalab, combinarli con dei quiz molto
+20:53
+banali, ma m cioè non roba stranamente tecnica, che dovrebbe essere di senso
+20:59
+comune, ma che palesemente non lo è, no? Perché è inutile che andiamo su quello,
+21:03
+è chiaro che si hanno idee strane su come il mondo e l'Italia funzioni e
+21:08
+rendere tutto estremamente userfly e mh che sia visivamente poi si può scegliere
+21:15
+se metterci quanto di storia, quanto di no quanto farla un percorso, quanto
+21:22
+farlo, questo è tutto da definire, ma l'idea di base è proprio quella lì di
+21:26
+avere un datalab con cose quanto più semplici possibili. per spiegare in modo
+21:31
+intuitivo e immediato i grandi problemi dell'Italia, si decideva, si pensava
+21:36
+quali si potrebbero prendere, ci sono le sei proposte che erano uscite il mese
+21:41
+scorso oppure per esempio il eh l'ultima che poi avevamo preso come
+21:48
+candidato tra le tra le tematiche che ora mi sfugge.
+21:52
+Ehm e quindi su questo ora il discorso è per
+21:58
+iniziare a a produrre una una prima bozza che sia
+22:03
+presentabile in segreteria o anche che abbia senso per per riuscire a lavorarci
+22:07
+a parlarne seriamente, no? Mh, il primo passo è quello sicuramente
+22:12
+di eh prendere i dati e trasformarli in un grafico che abbia le caratteristiche
+22:19
+di essere appunto interattivo e che permette agli utenti di farci,
+22:25
+cioè di lavorarci in modo molto semplice, così come lo lo
+22:29
+abbiamo immaginato, appunto. Quindi poi su quel punto di vista tecnico, per
+22:33
+esempio, Sandro diceva "Io non sapevo bene cosa come iniziare, che qual è il
+22:40
+gergo, quale eh stack tecnologico utilizzare, quale linguaggio prendere,
+22:45
+no? E e quindi per non iniziare da solo aspettato. Quindi, per esempio, ora
+22:49
+potremmo dedicarci a definire queste cose qui in modo tale che chi vuole da
+22:54
+domani può, non dico da domani partire, ma domani almeno
+22:59
+stare su Gitab, caricare la roba e definire un minimo in e insomma
+23:04
+allinearci su questo. Questa è quella è l'idea della della call di oggi. Il
+23:09
+primo punto. Sì.
+23:17
+Ciao ciao ciao. Sì, certo. Esatto Giuseppe. Cioè la prima cosa prima
+23:21
+ancora del dato forse è importante. È importante quali temi, cioè come chi
+23:28
+si accolla di dividersi, diciamo, di di estrarre, elaborare ehm i
+23:34
+dati sui temi che abbiamo scelto. Cioè così cominciamo a dividerci un po' anche
+23:39
+a segnare qualche compito e così questo è il primo step concreto sullo stack.
+23:44
+Esatto, quello che diceva Sandro. Perfetto, ne avevamo già parlato l'altra
+23:47
+volta, cioè e il dato dell'istat originale più lo script per elaborarli.
+23:53
+Li li carichiamo su Gtab, così chiunque può verificare che abbiamo usato questa
+23:58
+procedura per estrarre, poi magari facciamo un ash. Ed era una specie di
+24:02
+work around per non avere un database nostro, che avere una specie di dato
+24:06
+anche caricato o sha dentro un parquet. Avevamo parlato di di file parquet per
+24:13
+di cui si mette anche solo un ash oppure si carica tutto da qualche parte, però
+24:19
+la cosa importante è che sia verificabile, che estraiamo, elaboriamo
+24:23
+con uno script e poi e questo qui è il primo passo, però prima ancora di questo
+24:27
+passo e c'erano un sacco di backendisti o gente in grado di fare, cioè c'era più
+24:33
+maggioranza di gente di backend, mi sembrava l'altra volta che che era in
+24:37
+grado di fare questo lavoro. Quindi qui si è solo il fatto di scegliere quale
+24:42
+lavoro e poi che i backendisti inizino a a dividersi volontariamente per quello
+24:48
+che che possono, che vogliono, per il tempo che hanno. Invece sullo stack del
+24:53
+front-end dicevamo che avevamo detto sì che era un po' meglio React di Angular.
+24:58
+Angular c'era solo una persona che comunque è interessante, Gianmarco mi
+25:02
+sembra, no? Non mi ricordo chi. Comunque c'era uno solo di Angular che era
+25:07
+sicuramente bravo, però e gli altri erano tutti React e poi pensavamo di
+25:12
+3JS, no, per come libreria e e quindi vabbè, poi anche su questo sì è un
+25:17
+peccato che se uno come Sandro che sicuramente è molto competente a fare
+25:23
+queste cose qua, è limitato dal dalla scelta del del tech, insomma, La
+25:38
+connessione è caduta. Sì,
+25:45
+io sto prendendo appunti ugualmente per non rischiare almeno abbiamo un un
+25:49
+doppio. Vai, Sandrock. Sì, nulla, semplicemente basta che
+25:56
+prendiamo una decisione, io anche mi ho dato, cioè, però insomma prendiamola
+26:01
+perché sennò non mi piace prenderla da solo così a porte chiusa. Ecco,
+26:06
+questo qui. Eh, su CTAC, librerie, bla bla bla utilizzare. Ehm,
+26:15
+riguardo al resto, sì. E più che altro, secondo me, eh la cosa più difficile da
+26:20
+fare per questo tipo di cose è avere un'idea eh dei
+26:25
+di cosa effettivamente verrà fuori alla fine, perché tipo stavo provando a
+26:29
+ragionare quale sarebbe un bel una bella interfaccia sul tema pensioni, per
+26:34
+esempio, eh che ce n'è già una eh sul eh sull'attuale mo fatto con eh fatto
+26:44
+con cursor dell eh del datolab e effettivamente, cioè si potrebbe fare
+26:50
+tanto, c'è tanta potenzialità, ma non è una cosa affatto facile da definire,
+26:55
+cioè eh da ok, in questo grafico mostriamo questi dati qui, ci può
+26:59
+interagire in questa maniera qui, cioè sono tante decisioni da prendere
+27:04
+e dipende anche molto dai dati che hai, quindi eh è difficile capire da dove
+27:08
+devi iniziare, devi iniziare dal design o devi iniziare da vedere che dati hai,
+27:13
+eh poi in base a quello ti decidere che stacche e che tecnologie utilizzare.
+27:18
+Quindi, insomma, è difficile da mettere tutto insieme subito. Ecco.
+27:26
+Sì. che anch'io ho avuto la sensazione che sia più banale a immaginarlo poi che
+27:32
+più più di quanto poi sia realmente fare una cosa del genere, soprattutto
+27:36
+iniziare a coordinarsi e decidere questa cosa qui. E non avevo utilizzato Cursor
+27:41
+comunque, ma ma Gemini che è forse ancora più interessante perché non nasce
+27:45
+per quello. Ehm
+27:52
+sul sul discorso pensioni si era era immigrazione, giusto? quella
+27:58
+quella cosa di cui avevamo alla fine deciso di
+28:02
+Eh sì, alla fine Corin eh Corin aveva scritto il position paper sul caro
+28:07
+affitti, m eh però aveva ci aveva detto che
+28:11
+potevamo sul gruppo potevamo iniziare dall immigrazione eh che credo abbia
+28:15
+aggiunto qualcuno al gruppo che che ha scritto quello show paperazione.
+28:20
+Mh mh
+28:20
+e anche quello. Marco, riprendi pure da dove volevi, da
+28:27
+dove sei caduto. No, sì, sì, ma alla fine avevo detto
+28:31
+tutto, anzi mi stavo pure dilungando. No, no, e niente, dicevo, no, è solo un
+28:36
+peccato, non non sprechiamo le risorse, cioè e non non limitiamo. Mi dispiace
+28:43
+che che che Sandro si sia limitato per questo, per lo per il tech. alla fine
+28:49
+una eh forse per una scelta arbitrare, cioè a livello ideale. Ora senza andare
+28:55
+troppo in questo in questo punto, tanto non è però magari supponiamo due temi
+28:59
+diversi m potrebbero avere teoricamente frontendisti diversi, cioè anche tech
+29:05
+diversi nel front-end. Se questo facilita il lavoro di più volontari,
+29:09
+boh, è una domanda, eh, non è una, non voglio dire, però nel per assurdo non è
+29:15
+che deve essere tutto eh per forza unificato, secondo me. Poi non lo so,
+29:20
+decidiamo insieme. Cioè, nel senso, se uno per la per se per gli affitti il
+29:23
+quiz è in react e ci sono e e invece qualcun altro su un altro tema
+29:30
+sull'energia, sul nucleare vuol farlo in Angular, alla fine l'importante è il
+29:34
+metodo, secondo me. Poi vabbè, decidiamo insieme, non lo so, però non deve essere
+29:38
+tutto uniformato, deve essere uniformato lo stile come ha fatto Sandro nell'altro
+29:43
+progetto che ha fatto un gran lavoro, secondo me, cioè ovviamente se tra
+29:48
+virgol diciamo il CSS, il Tailwind, cioè è è unificato, alla fine chi se ne frega
+29:54
+del del framework del front-end, tra virgolette, no? Cioè, tanto alla fine
+29:59
+per essere pratici è utilizzare al massimo i volontari che abbiamo e le
+30:03
+skill che ci sono, ma alla fine chi se ne frega, cioè non è un progetto enorme,
+30:08
+possono essere tanti mini mini progetti, uno per ogni
+30:12
+per ogni roba, non lo so, eh, poi dite voi, eh.
+30:21
+Ok, allora direi di fare una la cosa più
+30:37
+banale possibile, quindi neanche usare cose particolari come magari Next o cose
+30:43
+del genere, ma proprio andare magari di un'applicazione Vit standard Spa spa,
+30:49
+chi se ne frega, Eh, e da lì dopo e da lì mh prendere un minimo di
+30:59
+decisioni per per stile, cose del genere, ma cercare di fare il meno
+31:06
+possibile. Ecco, eh come hai detto sembra esserci mh una preferenza per
+31:15
+React. Mi spiace per Aspetta, chi ero? Io qua ho scritto sui miei appunto che
+31:21
+era Gianmario, il frontentista di Angular, mi dispiace
+31:26
+per lui. Ah, però insomma non dovre non è tanto quello il punto, appunto,
+31:31
+volendo si fanno anche cose diverse in futuro.
+31:36
+E sì, allora da lì vi basta avere dei dati mostrare. Ecco, è quello un po' il
+31:42
+punto. Quindi si decide un tema e possiamo
+31:48
+tranquillamente iniziare se se c'è un datset decente che posso utilizzare.
+31:54
+Eh sì,
+32:00
+sì, iniziamo piano piano e poi pian piano facciamo tutti i temi.
+32:04
+Sì, tre temi. Tre temi di cui si era parlato l'altra volta. più ovvio.
+32:08
+E allora il tema che aveva proposto inizialmente Giuseppe sulle pensioni, mi
+32:12
+sembra, poi c'era, avevamo detto che c'era la questione di Corinna che aveva
+32:17
+fatto un position paper sul sugli affitti e che è anche uno dei delle
+32:23
+campagne che è anche una delle sei campagne proposte da ora, quindi poteva
+32:27
+essere interessante lavorare su quelle campagne per supportare insomma il
+32:31
+lavoro che sta facendo appunto nel nazionale partito e visto che lì ci
+32:36
+saranno tante campagne, ci sarà tanto da tanta esposizione mediatica, cioè
+32:41
+contenuti social eccetera eccetera. anche noi dare il nostro contributo con
+32:46
+un quiz interattivo è figo. questi questi tre, non so, nucleare,
+32:53
+pensioni e affitti. Ecco, se se chi vuole iniziare su, però il discorso era
+32:58
+anche interfacciarsi con chi aveva fatto non andare a liberi, diciamo, ma
+33:03
+interfacciarsi con chi aveva già fatto un position paper in modo tale da essere
+33:09
+guidati, non a prendere dati qualsiasi, ecco, ma ma avere anche
+33:16
+eh diciamo un lavoro di chi ci aveva già lavorato nei gruppi tematici prima.
+33:21
+Questo qui poteva essere quindi eh l'altra volta si era detto però di avere
+33:24
+prima l'MVP prima di contattarli. Io volendo posso posso domani stesso,
+33:30
+insomma, in questi giorni contattarli su questi tre, quattro temi, iniziare
+33:35
+infilare uno di loro nel gruppo. Sì, però il discorso, cioè, si diceva che
+33:39
+appunto Corina, essendo già nel gruppo, essendo già coordinatrice, diciamo,
+33:43
+della parte web e e però avendo anche lavorato su un position paper, si poteva
+33:49
+usare lei, visto che che qui avendo i più più ruoli e per poter usare i dati
+33:56
+sul suo tema su cui aveva scritto, lavorato col position paper sugli
+34:01
+affitti per fare l'MVP, se proprio vogliamo procedere così con questa
+34:07
+Prego. Buongiorno. Eh,
+34:13
+io sono il Beh, intanto mi chiamo Gianmarco Mancinelli, ringrazio tutti
+34:17
+per l'occasione, per l'incontro. Vi chiedo scusa per il ritardo e dato che
+34:23
+io ero venuto proprio come coordinatore di un gruppo tematico, appunto perché
+34:26
+Corina mi aveva chiesto eh insomma mi ha detto che si voleva iniziare con
+34:30
+qualcosa, a sto punto meglio eh coinvolgere qualcuno che ha lavorato su
+34:34
+position paper. e se ci sono alcune caratteristiche
+34:40
+che rendono più facile alcune caratteristiche del position paper che
+34:45
+rendono più o meno facile la realizzazione di quello che avete in
+34:48
+mente e volete farmi delle domande per capire se il mio è un buon position
+34:52
+paper da cui partire o magari ce ne sono di migliori, chiedete pure. Ad esempio,
+34:58
+noi non abbiamo abbiamo lavorato a partire, ci sono ci sono molti dati, ma
+35:03
+sono dati, ad esempio, che noi non abbiamo elaborato, sono che abbiamo
+35:08
+preso da altri report, da altre parti. Quindi, ad esempio, se nel vostro
+35:12
+progetto per funzionare al meglio, per esprimere tutte le potenzialità, eh è
+35:16
+necessario o sarebbe meglio che ci siano delle banche dati di partenza, ad
+35:20
+esempio, il nostro potrebbe non essere il migliore, ecco, in però non lo so,
+35:26
+questa è una mia ipotesi sul coso. Se avete delle domande che possono aiutarvi
+35:29
+a decidere, io sono qui a disposizione. Penso fosse proprio la ragione per cui
+35:33
+Corin mi ha chiamato, soprattutto, poi chiudo la parentesi e vi lascio,
+35:38
+no? Ricordaci quindi qual era il position paper su cui tu hai lavorato
+35:41
+quello degli effetti. Immigione. Immigrazione.
+35:43
+Ah, immigrazione. Ah, ok. Ok. Benissimo. Interessante. Eh no, più che altro
+35:52
+servirà a capire, appunto, se se magari non sono state fonti dirette, ma dati
+35:57
+già elaborati, si dovrebbe capire se si può arrivare alla stessa, prendendo dati
+36:01
+dell'Istat, arrivare alla stessa conclusione, agli stessi tuoi dati che
+36:05
+poi in linea teorica si dovrebbe uscire. Quindi quello lì è solo il punto. E poi
+36:13
+come fare questo va va capito, ci dobbiamo pensare
+36:18
+come fare una specie di gioco di simulazione.
+36:21
+E vabbè, però quello delle il gioco sulle pensioni è abbastanza integrato da
+36:26
+alcuni punti di vista quello dell'immigrazione, no? Quindi in effetti
+36:31
+sì, c'è il link cruciale che ovviamente nella sostenibilità delle pensioni c'è
+36:34
+la la popolazione che lavora, quindi l'immigrazione rientra lì
+36:43
+e ovviamente si potrebbe far giocare l'utente con il
+36:48
+2 3 4% di immigrazione annua, no? e con tutti quei parametri lì e vedere come
+36:55
+cambia la proiezione e la sostenibilità del
+37:01
+Eh sì, ma quello lo terrai su quello lo terrai sull'ambiente pensioni, però,
+37:05
+cioè quello è il calcolo pensionistico. Certo, perfetto. sull'immigrazione a me
+37:10
+viene più in mente magari un un appunto uno slider che quanta immigrazione eh in
+37:17
+termini proprio numerici o di percentuale annua e magari vedere
+37:22
+interagire col grafico demografico dell'Italia, vedere la demografia che
+37:26
+cambia in base al tasso di immigrazione che c'hai.
+37:29
+Quello magari mi sembra più una cosa dotato di immigrazione.
+37:33
+Beh, il il position paper dimigrazione prende in considerazione, cioè
+37:37
+l'introduzione è tutta è quasi tutta demografica e economica, nel senso che
+37:41
+le prime pagine sia del position paper che della tesi programmatica in realtà
+37:45
+sono un'analisi dello stato dell'arte, della situazione demografica, anche
+37:50
+pensionistica italiana, della questione della sostenibilità del debito, cioè son
+37:54
+quella cosa è molto integrata in realtà a il paper sulla spesa pubblica,
+37:58
+pensioni e produttività del lavoro, queste cose eccet C cioè la prima parte
+38:03
+è molto ben integrata e integrabile e riguardo alla questione del modulare il
+38:10
+la quantità di migrazione nei prossimi decenni e vedere come interagisce con ad
+38:14
+esempio la sostenibilità del debito, eh nel noi presentiamo un grafico che è
+38:19
+stato preso dal documento di Economia e Finanza del Ministero dell'Economia e
+38:23
+delle Finanze che fa proprio questo, cioè fa una proiezione della sensitività
+38:28
+del di più o meno di migrazione sul sulla sostenib attività del debito e ad
+38:34
+esempio quello sarebbe sarebbe interessante renderlo interattivo in
+38:38
+qualche modo, cioè piuttosto che presentare una proie tre proiezioni,
+38:42
+quindi con più 20% più x% di immigrazione - x% di immigrazione e
+38:48
+immigrazione uguale ad oggi danno proprio tre proiezioni di diversa
+38:52
+sostenibilità del debito e renderlo interattivo sarebbe secondo me
+38:59
+già quella una cosa molto interessante. ad esempio. M
+39:03
+Sì, è interessante una cosa che mi ha fatto venire in mente, era una domanda
+39:05
+che mi era venuta tempo fa. Eh, non sempre, per esempio, tu hai citato
+39:11
+adesso che sul grafico ci sono praticamente tre possibili, cioè tipo 5,
+39:15
+10, 20%, non lo so, sarà una cosa così di di step che sono stati analizzati. Se
+39:22
+vogliamo sì, però fare un grafico interattivo con tre step, cioè fa un po'
+39:25
+schifo da da vedere, cioè sì, insomma, fa un po' schifo, cioè e siamo tutti
+39:31
+d'accordo a fare tipo un'interpolazione lineare tra tra le due così, cioè
+39:35
+insomma è un po' più carino da vedere perché sennò eh se vogliamo essere no, i
+39:40
+dati devono essere quelli e e mantenere diventa un po' cioè eh toglie un po'
+39:45
+quel quel bello di avere i grafici interattivi, ecco, anche se i dati non
+39:50
+sono così veritieri, magari Bisogna vedere se la correlazione è
+39:56
+lineare. Poi un po' il problema ed è quello che mi
+40:02
+preoccupa. Io, scusatemi, ma farò spesso faccio l'avvocato del diavolo, nel senso
+40:07
+che essendo ignorante sui numeri, ma essendo un gran rompiscatole su come
+40:14
+vengono trattati e masticati, il mi verrebbero da fare già un milione di
+40:19
+domande. Cioè la differenza tra immigrazione e immigrazione
+40:25
+e diciamo eh come dire legale Ciao. Ciao Corin.
+40:32
+Immigrazione non vuol dire immigrazione clandestina, vuol dire immigrazione
+40:37
+riconosciuta di persone che lavorano e che contribuiscono. Quindi quanto è la
+40:40
+correlazione, quanto è la forchetta. Se io io sto forzando con un dato di
+40:47
+migrazione del 2% in realtà vuol dire che l'immigrazione reale è del 3 4 5
+40:54
+perché probabilmente questo ce n'è un tre che è sommerso e che costa, quindi i
+40:59
+costi sono vanno a incidere non cioè i costi dell'immigrazione che è banalmente
+41:04
+la spesa per la sanità non è sul due, ma è sul cinque, cioè tante cose che
+41:10
+secondo me bisogna stare molto molto attento. enti a mettere sul piatto per
+41:16
+non rischiare di essere poi accusati di drogare i i dati, perché secondo me se
+41:23
+c'è una cosa che è peggio che non dare nessun dato e darlo
+41:30
+sbagliato, perché oltre a dare un'informazione
+41:33
+eh errata, comunica l'impressione che in un modo o
+41:39
+nell'altro si sia cercato di indirizzare il pensiero in in una da in una strada
+41:45
+piuttosto che in un'altra. del motivo per cui all'inizio della telefonata
+41:49
+della della call dicevo è meglio che i dati siano sempre accessibili a tutti e
+41:54
+che e adesso sto pulciando il sito dell'Istato, le note metodologiche,
+42:00
+quindi anche la nota metodologica deve essere sempre allegata,
+42:05
+cercando di avere una visione il più il più onesta e e
+42:13
+completa possibile, perché poi per dire eh quanto rende l'immigrazione, quanto
+42:20
+pagano di tassi immigrati X. Poi però c'è quello che ti dice "Ok, però quelli
+42:24
+che pagano le tasse", poi c'è il nero, poi c'è il sommerso, poi c'è un'altra
+42:29
+cosa che secondo me l'immigrazione non può prescindere dal prendere in
+42:32
+considerazione sono i costi dovuti alla criminalità e anche lì è un cinema che
+42:38
+si apre ed è gigantesco, perché tu dovresti andare poi a fare
+42:44
+un'indagine a priori guardando come sono cresciuti i costi in proporzionale
+42:49
+all'immigrazione. Cioè è è molto complesso il discorso, quindi secondo me
+42:54
+quando si fanno dei discorsi sui dati bisogna stare molto attenti a essere
+43:00
+solidi perché i dati poi alla fine se li
+43:03
+torturi abbastanza lo sappiamo tutti, ti diranno quello che vuoi sentirti dire
+43:07
+e quindi quello che mi preoccupa è che poi qualcuno alzi la mano e dica "Sì,
+43:11
+ok, li hai fatti tornare perché gli hai torturati abbastanza da fartelo dire".
+43:15
+Certo. Beh, se per questo genere di lavoro, cioè ripeto, poi immagino che
+43:20
+voi stiate scegliendo su quale paper e su quale tema farlo. Se sceglierete di
+43:26
+farlo su migrazione, io mi do totalmente disponibile poi a dialogare con voi su
+43:31
+queste cose per capire appunto come meglio presentare le ad esempio eh
+43:36
+riguardo alla cosa che dicevi tu prima, sarebbe correttamente giustamente
+43:41
+sarebbe importante eh agire a livello definitorio, cioè non parlare di
+43:46
+immigrazione, come giusto sottolineavi tu, perché è un fenomeno complesso e
+43:49
+composito, e dire all'aumento alla diminuzione della popolazione regol
+43:54
+straniera. regolarmente presente sul territorio e fare questo tipo di lavoro
+43:58
+qui, cioè se se voi volete fare degli incontri in cui eh io o altri che hanno
+44:03
+lavorato nel position paper ci mettiamo a vostra disposizione per trovare
+44:07
+questi, come dire questo sforzo di chiarezza,
+44:13
+io ci sono. Poi a parte questo, non poi non ho le competenze per seguirvi,
+44:18
+no? Io forse non eri ancora arrivato, ma quello che sostanzialmente dicevo è che
+44:24
+neanch'io, nel senso loro quando parlano di di di sigle, di piattaforme eccetera,
+44:30
+io c'ho il il cespuglio che mi rotola nel cervello. Quello che però invece un
+44:34
+pochino di più capisco è dove poi vanno a parare i dati, perché sono abituato a
+44:39
+raccoglierli, a presentarli magari a a top management di aziende
+44:47
+grosse, molto grosse e quindi e so più o meno quello che poi è la domanda e
+44:54
+quello mi offro la domanda dell'ignorante, cioè tu arrivi e hai
+44:57
+fatto 10.000 quering, 10.000 la interpolazioni, le regressioni,
+45:02
+eccetera. Poi arriva effettivamente il, che ne so, il Marchion Edituro, dice,
+45:08
+mette il naso lì, dice perché qua cos'è questo? Ma perché? e glielo devi
+45:14
+spiegare. a quel punto rischi che di trovarti
+45:18
+vittima di qualche bias che ti hai ripreso all'inizio e però a forarli non
+45:23
+te ne rendi più conto e quindi secondo me io dal punto di vista tecnico,
+45:28
+ricerca dei dati eccetera, zero, cioè le piattaforme che avete detto frontend,
+45:34
+backend io zero, però se volete posso dare la mia opinione su il risultato,
+45:39
+cioè un approccio critico sul
+45:45
+su come poi vengono vengono aggregati eccetera. quello mi sento un po' più
+45:51
+confidente di poter dare un minimo di valore aggiunto sul reste. Questo
+45:55
+sicuramente comunque è utile, bisogna integrare tutte queste competenze,
+45:59
+queste conoscenze su tutti i lavori, però penso anche che magari noi questo
+46:04
+progetto è anche e soprattutto un tecnico un modo tecnico e di
+46:10
+storytelling interattivo per spiegare qualcosa che però magari è stato
+46:15
+elaborato e approfondito magari da chi ha fatto il position paper e poi è stato
+46:20
+magari votato e approvato dal dall'Assemblea Nazionale. E quindi è per
+46:25
+quello che noi ne parliamo in questi termini, non perché stiamo facendo noi
+46:29
+il lavoro sui dati o sulla tesi programmatica, noi stiamo solo
+46:32
+tecnicamente creando uno storytelling un po' interattivo, un po' più figo per
+46:38
+per uscire dalla nostra bolla e andare a parlare con con i cittadini comuni nel
+46:42
+territorio, cioè avere sul tablet, quando siamo sul territorio, uno
+46:46
+strumentino da far vedere. Ecco, penso sia questo.
+46:49
+No, no, ma è chiaro. Io però quello che quello che ci tenevo a sottolineare è
+46:54
+che nel momento in cui vai a presentarlo, che sia l'uomo della strada
+46:59
+o che sia il ministro o il vicesegretario del sottosegretario del
+47:03
+ministro, quello che importa è che poi non tiri fuori quella domanda, però tipo
+47:08
+quella che ho fatto io, se quando si dice immigrazione si dice immigrazione
+47:13
+regolare, immigrazione overall, dici "Sì, aspetta, però io non mi ricordo".
+47:17
+oppure non so, oppure capisci, cioè il rischio più grosso è che eh si sia perso
+47:25
+o un dato, un fattore di correlazione o che comunque il il la metodologia con
+47:32
+cui il dato è stato innanzitutto recuperato e quello te lo dà l'istatile
+47:40
+perché poi il data owner è l'Istat di solito
+47:44
+oppure qualcosa, cioè il qualche cosa che nel metodo sia sfuggito, che tu non
+47:49
+stia guardando un pezzo di fotografia. E questo, secondo me, è importante
+47:55
+perché è vero che l'obiettivo di dare delle indicazioni
+48:00
+abbastanza catching, abbastanza ehm
+48:05
+userfend, qualcosa che che catturi l'attenzione e sembra interessante, però
+48:11
+è importante anche non deviare e non indirizzare perché poi la storytelling
+48:17
+lo sappiamo benissimo, è purtroppo a volte sinonimo di balla.
+48:23
+ed è una cosa che secondo me squalifica poi tutto il resto.
+48:28
+M m secondo me è punto un po' diverso,
+48:32
+cioè alla fine eh questo lavoro di verificare che il dato
+48:39
+ci sia eccetera è stato già in teoria fatto dai gruppi tematici che hanno
+48:43
+analizzato i dati gregi. Quindi, cioè, sfrutterei proprio quello che ci dice in
+48:46
+questo caso Gianmarco Sì, riguarda quei dati, ci dice, "Guarda, la cosa è così e
+48:51
+questo è il grafico e eh noi facciamo il grafico e poi ovviamente lui che si ha
+48:56
+studiato le fonti eccetera lo guarda e dice "Sì, questo ha senso no?
+49:00
+Aggiungiamoci una nota che dice no, questo grafico e ricordatevi che questo
+49:05
+grafico c'è questo asterisco qui gigante eccetera eccetera".
+49:11
+Sì, appunto volevo intervenire dicendo che mi immagino che tante di queste
+49:15
+situazioni possono essere risolte con un semplice asterisco, specificando laddove
+49:19
+ci sono dei termini che possono essere un po' fraintesi con l'asterisco. Poi
+49:24
+noi ce la ce la caviamo, mi vengono in mente anche esempi sul sul mio tema che
+49:29
+comunque ripeto è a disposizione quello di crisi abitativa che magari è meno
+49:34
+polarizzante come temo. Decidete voi però. L'idea,
+49:42
+cioè, visto che in questo gruppo siamo in tanti, potrebbe avere quasi un senso,
+49:48
+anche se ci sono per esempio due backendisti o più o quattro, appunto,
+49:53
+come sembrava l'altra volta, mettere due su un tema, due sull'altro, due
+49:57
+sull'immigrazione, due sugli affitti e e via. Poi a livello frontend, cioè
+50:03
+all'inizio c'è più da fare una questione di stilistica, appunto, della
+50:07
+configurazione del Telwind e e le basi comuni, insomma, del CSS. Poi dopo eh
+50:14
+sì, se si vuole, però quasi non non si può andare un pochettino in parallelo,
+50:19
+però eh in realtà prima dovrebbe venire la scelta dei temi e la
+50:25
+l'elaborazione dei dati e poi dopo da quelli anche sì, magari in parallelo si
+50:31
+può già capire dove si vuole arrivare, quindi come strutturare il quiz o gioco
+50:36
+interattivo, gli scenari anche senza avere i dati e poi dopo si si mette
+50:40
+insieme tutto. sul tema mi veniva una una
+50:49
+considerazione da fare. Mi sembra scontato, penso converrete, che ci sono
+50:55
+due caratteristiche che un buon tema per questo tipo di lavoro deve avere. Cioè
+50:59
+il primo deve essere un qualcosa di scontato, quasi banale, quindi e il
+51:05
+secondo è che le fonti devono essere non necessariamente quelle utilizzate nel
+51:08
+position paper, no, ma in generale devono esserci delle fonti che siano eh
+51:14
+trustable, semplici, anche perché così c'è meno lavoro per voi. Ehm, quindi la
+51:20
+scelta del tema la fare su queste due cose perché sia è estremamente scontato
+51:25
+e che abbia delle fonti in grande abbondanza, magari
+51:30
+ecco con un alcune caratteristiche. Ora stavo buttando giù una scaletta per fare
+51:35
+il check e temo che sia migrazione che mh crisi abitativa
+51:42
+se uno fa se uno fa un un rate, no, pensioni o roba energetica viene più
+51:48
+facile a mio avviso. Poi non lo so, però ho questa sensazione
+51:53
+a a rifletterci un attimo. E poi il secondo punto, una volta definito
+51:57
+questo, quindi si inizia con tra virgolette formazione del team, quindi
+52:01
+chi è che è pronto a lavorare la la si butta lì e si inizia a dividere tutto
+52:07
+quello di cui abbia discusso sia la volta scorsa che in parte questa volta,
+52:10
+quindi la ownership, la le fonti scelte, il database, come strutturarlo, il
+52:16
+linguaggio e tutto il resto. E ancora una volta invito chi è che non
+52:23
+l'avesse fatto, forse Paolo che sei arrivato dopo
+52:27
+a guardare perché quella è secondo me un esempio già di un prodotto ben riuscito
+52:33
+di questo tipo qui di gapminder che sia ovviamente il limite che non ci sono le
+52:38
+fonti, ma perché quello di cui parlano è mi sembra così banale che
+52:45
+forse no, non è mai non è mai G Mind
+52:48
+Gap Mind. Ti metto il ti metto il link eh in chat qui.
+52:56
+Qui non posso perché sono dal cellulare, L'ho messo nella chat WhatsApp.
+53:30
+Visto? Grazie. E qui fondamentalmente c'è una pagina
+53:38
+principale dove vengono racchiusi tutte le tematiche, un quiz di 10 domande, una
+53:43
+per tematica perché mi pare che tematiche ne abbiano 10, trattate loro.
+53:48
+E poi ogni pagina è il suo quiz a sua volta con 10 domande. Quindi, se noi
+53:52
+volessimo ripare una roba del genere, ci dovrebbe un quiz con x domande e poi
+53:57
+nella pagina principale una domanda scelta tra le 10 di ognun di delle X di
+54:02
+ogni tema. È una selezione di grafici, quello più interessante per tutti i tre
+54:09
+quattro grafici interattivi di ogni pagina. Quindi l'idea era quella di
+54:13
+partire con una tematica oppure, come Marco ovviamente diceva, chi liberissimo
+54:18
+ognuno di di partire come vuole nel caso in cui le risorse ci siano.
+54:24
+E però a questo punto diventa, secondo me, importante scegliere il tema secondo
+54:28
+quelle due discriminanti lì, cioè il fatto che sia una cosa del tutto banale,
+54:32
+così scontata, che nessuno possa mai avere qualcosa da ridire, anche se
+54:37
+ovviamente qualcuno lo avrà qualcosa da ridire, perché per esempio sono usciti
+54:40
+articoli lunghissimi di The Banking sul libro di di Pinker Enlightenment Now,
+54:46
+no, che è un libro banalissimo, dice cose scontate, eppure c'è chi ci ha
+54:51
+fatto l'articolo su di The Banking, quindi Ovviamente qualcuno avrà qualcosa
+54:56
+da ridire, però più l'argomento è scontato e semplice, più non semplice
+55:01
+nel senso che sia banale, nel senso immigrazione no ha dei tecnicismi
+55:06
+dentro, degli effetti di causalità e di che che rendono leggermente più ostico
+55:12
+fare una cosa di questo tipo, probabilmente. Mentre nel mix
+55:15
+energetico, l'esempio l'altra volta, è difficile, no, andare a
+55:23
+a cercare, almeno mi sembra, poi magari probabilmente, anzi mi sbaglio, però
+55:27
+questa è la sensazione che ho io che mi sono fatto ora. Ecco,
+55:39
+intanto stavo guardando questo Gabider. No, è simpatico.
+55:44
+Sarebbe carino, secondo me, che questo gruppo diventasse poi una specie di task
+55:48
+force al servizio di chi sta preparando adesso position paper, in futuro si
+55:54
+spera qualcosa di più ambizioso, come potrebbe essere un'intervista anche a
+55:58
+livello nazionale. Dire, senti, io ho intenzione di per essere sicuro
+56:03
+aggiornami questi dati, dimmi queste queste informazioni tradotte in numeri.
+56:10
+Per togliermi la curiosità, ho provato a fare un paio di domande a Chat GPT,
+56:13
+cercando di farli fare grafici abbastanza semplici, ma non ci riesce e
+56:18
+quindi sarebbe carino se invece ci fosse un gruppo che ti dice "Va ben, ok,
+56:23
+parliamo di immigrazione, fammi una torta in cui mi dici quali sono le
+56:27
+regioni in cui ci sono più immigrati sono totale della popolazione", per dire
+56:31
+è una cosa che è banale, però avere a disposizione un team che si
+56:37
+mette lì e lo sa fare invece banale. non lo è.
+56:42
+Che sia per un position paper, che sia per un'intervista, che sia per qualunque
+56:46
+altra cosa, secondo me quello potrebbe essere un
+56:49
+valore aggiunto più del quiz. Il quiz è carino, per carità.
+56:54
+Sì, sì, se n'era già parlato, scusatemi se intervengo, se n'era già parlato. Ci
+56:57
+sono tre o quattro cose che si potrebbero fare per tutti gli iscritti,
+57:01
+in particolare i delegati e ancora più in particolare le interviste che sono
+57:06
+una raccolta di domande, questa già c'è con risposte, quella andrebbe aggiornata
+57:10
+e poi il si si parlava anche di l'avevo proposto forse io un notebook lam che
+57:18
+ora è equipaggiato anche con la funzione di fare le slides, le fa molto carine,
+57:22
+che abbiano stile suo e che le genera in automatico e poi no, il gruppo di
+57:27
+supporto, cioè in modo tale che chi ha l'idea la la gli vengono le slide tutte
+57:32
+uguali a livello Sì. Questo l'abbiamo riassunto lì
+57:38
+nella la volta scorsa, ecco. E poi ehm c'erano due mani alzate andate con
+57:46
+ordine. M. M che poi mi ricordo una cosa che aveva
+58:26
+detto Corino la scorsa volta che a livello di partito c'è già l'oralab che
+58:31
+dovrebbe essere che fa la val delegati, immagino, per gente a cui
+58:41
+serve eh il partito, quindi sì, questo sarebbe questo gruppo potrebbe diventare
+58:48
+una cosa unita o comunque legata a a quel gruppo che già c'è, però sì,
+58:55
+è una cosa ovviamente Futura. Beh, ora Lab agisce soprattutto per per
+59:04
+la segreteria e come dire per i lavori d'urgenza. C'è
+59:08
+un po' un pronto intervento nel momento in cui il segretario qualcuno del
+59:13
+consiglio direttivo o qualche persona che è visibile sul territorio
+59:18
+ha un'emergenza del tipo domani devo parlare di questa cosa e quindi è un
+59:22
+gruppo appunto di pronto intervento, possiamo dire. eh quello che di cui si
+59:27
+parlava prima, io francamente come coordinatore di un gruppo tematico
+59:32
+benissimo, cioè il poter dire stiamo lavorando su un qualche tema, siamo
+59:37
+molto spesso ci si trova tra appunto persone che a titolo volontario si
+59:42
+mettono a leggere report, pubblicazioni, paper, insomma avere la possibilità di
+59:49
+avere una di trovare fuori una qualche tipo di banca dati o un qualcosa, darlo
+59:54
+impasto a un team di senti fatemi questi grafici che ne ho bisogno
+1:00:00
+e loro coi loro tempi, però con un lavoro di cooperazione continuativa
+1:00:05
+sarebbe una cosa ottima. Cioè, nel senso, quando volete, anzi se volete
+1:00:09
+darmi i vostri numeri di telefono già domani.
+1:00:20
+Sì, anche io penso sia particolarmente calzante per collaborare con quello che
+1:00:25
+era il gruppo tematico. Che sarà, non sappo ancora bene cosa, ma
+1:00:31
+qualcosa sarà e lo scopriremo presto. dopo il 19 in teoria.
+1:00:40
+Ehm, ok,
+1:00:44
+non lo so, io ho sempre molta fiducia in voi eh assembleari
+1:00:50
+e direttivo, figuriamoci, no? Ok. Ehm,
+1:00:57
+stavo pensando che avitativa si presta molto bene a un quiz
+1:01:05
+e in realtà ha i dati sono pochi proprio perché gli aspetti sono pochi, cioè non
+1:01:12
+è che c'è più di tanto da Infatti quelli sono non se ne esce. Ehm,
+1:01:19
+di sicuro non è un tema mh ovvio per tutti, non quanto eh che ne
+1:01:28
+so, le pensioni, ok? Però è un problema che riguarda tutti, cioè è un problema
+1:01:33
+che tramite un quiz potrebbe farti dire "Ah cavolo, ma questa cosa allora quindi
+1:01:37
+ricorda anche me" perché ricorda veramente tutto il creatore italiano?
+1:01:42
+Ehm, ed è una questione veramente di di
+1:01:48
+numeri e i numeri sono veramente gravi, cioè vi cito, ad esempio, gli
+1:01:51
+studentati, gli studentati sono coprono meno del 10% della domanda in Italia.
+1:02:00
+Soddisfiamo meno del 10% della domanda di studentati,
+1:02:04
+non sappiamo nemmeno di quanto è, meno di 10, sotto il 10 non si calcola. Siamo
+1:02:08
+insieme alla Bulgaria con questo analino di cura dell'Europe ovviamente
+1:02:15
+e questo dovrebbe far già accendere la la lampadina
+1:02:20
+a chi eh fa il quiz tipo "Ah, ecco perché ci sono così tanti studenti che
+1:02:26
+stanno cercando alloggio e fanno le proteste perché gli alloggi costano
+1:02:30
+tanto." Ehm ed è anche molto veloce c'è un altro
+1:02:34
+esempio. ci sono tre stakeholder che concorrono
+1:02:39
+allo stesso tipo di fondo abitativo, cioè l'appartamento in affitto che in
+1:02:45
+questo momento sta venendo messo o in affitto a lungo termine o a breve
+1:02:48
+termine. sono il residente, lavoratore a lungo termine, lo studente perché non ha
+1:02:54
+gli studentati, il turista perché il turista tramite BNB può eh afferire
+1:03:00
+sempre a allo stesso settore di mercato, anziché stare nel suo settore di mercato
+1:03:05
+che sarebbe il turistico ricettivo. Quindi abbiamo
+1:03:09
+tre domande per la stessa offerta, quindi il prezzo sale sale
+1:03:14
+verticinosamente. Quattro domande. Ci sono anche i
+1:03:17
+lavoratori in trasferta, non solo gli studenti.
+1:03:20
+Sì, vero. Quindi vedi che anche lì
+1:03:25
+però le metto sempre insieme ai lavoratori
+1:03:29
+perché il lavoratore ha un certo tipo di budget, lo studente ne ha un altro. Il
+1:03:35
+budget dello studente non è correlato alla rendita dello studente, è correlato
+1:03:39
+alla rendita dei genitori, è differente. Lavoratore invece deve rientrarci di
+1:03:44
+suo. Il turista caso a parte perché il turista è correlato sia alla rendita
+1:03:51
+della della persona, ma essendo turista siamo in una occasione, diciamo, di
+1:03:56
+carattere eccezionale. Non è una spesa eh che viene sostenuta a lungo.
+1:04:01
+Cerro non ne ha bisogno. Se non hai i soldi non viene. Esattamente. In più noi
+1:04:06
+sappiamo che ehm anche se il turista emente un budget per l'eccezionalità
+1:04:12
+della situazione, il turista è più disposto a sforare il budget anche di
+1:04:18
+tanto se trova prezzi molto alti. Cioè se il turista trova Airbnb, noi sappiamo
+1:04:23
+che è disposto a sforare il budget più di uno studente, più di un lavoratore.
+1:04:28
+Il lavoratore è quello che è disposto meno a sforare il budget perché non ci
+1:04:32
+rientra. persona non campa e anche questo concetto portato più
+1:04:38
+ricchezza, meno turismo più costoso, cioè è meglio è meglio 10 turisti poveri
+1:04:46
+o uno studente o uno un turista estremamente ricco che paga quanto gli
+1:04:50
+10 i 10 poveri. Senza contare che poi il turista
+1:04:53
+e quelle sono simulazioni da fare. La Tari non te la paga.
+1:04:59
+Quindi io ho per ogni appartamento che va in affetto breve ho un appartamento
+1:05:04
+con degli abitanti che non pagano più la Tari e quindi che non contribuiscono più
+1:05:08
+a livello economico al mantenere il benessere cittadino. Però comunque sono
+1:05:14
+persone che abitano nel centro cittadino, che consumano, che come tanti
+1:05:20
+altri eh fanno più spazzatura, fanno più riserve
+1:05:26
+lavoro, anzi in realtà il turista arreca molto più disagio in media che non un
+1:05:31
+residente perché non percepisce il luogo come suo, quindi ha comportamenti
+1:05:35
+tendenzialmente in media più distruttivi nei confronti dell'ambiente urbano
+1:05:39
+perché non è casa sua. Quindi, ad esempio, questo concetto
+1:05:46
+mi sembra molto graficizzabile, non so se mi spiego, oppure anche il fatto che
+1:05:52
+il prezzo al metro quadro degli appartamenti negli ultimi 50 anni cresce
+1:05:58
+tipo in questo modo, mentre il reddito delle persone, soprattutto del 35,
+1:06:04
+cresce tipo in questo modo. Quindi
+1:06:08
+sì, quello è il grafico più, cioè quello che di solito quando si
+1:06:13
+parla di questo è il primo grafico che ti mostrano
+1:06:16
+il costo delle case percentuale del medio se ne vai.
+1:06:22
+Esatto. Oppure un altro fattore che mi viene in mente, eh, c'è un fattore che
+1:06:28
+si chiama H a I High, che è il fattore di avitabilità di un luogo che ehm c'è
+1:06:36
+una cartina molto bella che è stata fatta da un sink tank, quindi sarebbe
+1:06:41
+una fonte esterna super affidabile perché è uno studio indipendente,
+1:06:45
+fantastica, che fa vedere il rapporto tra ehm la rendita media per nucleo
+1:06:54
+familiare, per comune, quindi su base comunale,
+1:06:58
+in rapporto al prezzo medio di eh un appartamento in quel comune.
+1:07:05
+Se questo rapporto supera il 30%, nel senso che ogni nucleo familiare spende
+1:07:12
+più del 30% solo per spese abitative, quindi tolte
+1:07:17
+le bollette, tolte tolta qualunque cosa, solo spese abitativo, è considerato
+1:07:21
+legalmente insostenibile. Legalmente proprio. Se guardate l'elenco
+1:07:27
+le città che sforano questo 30% sono tipo 20 città, 20 delle maggiori città
+1:07:32
+in Italia. una roba impressionante. Anche lì sarebbe figo. Tipo, voi in live
+1:07:38
+l'avevo messa un po' come giochino con quelli che ascoltavano, tipo provate a
+1:07:42
+indovinare, se fate parte di una di queste 20 città, se ne fate parte con
+1:07:47
+avete perso perché vuol dire che spendete in media, magari non voi, però
+1:07:52
+in media nella vostra città si spende più del 30% del vostro stipendio solo
+1:07:58
+per ne votativi e questo considerato insostenibile.
+1:08:04
+Quindi sentiti parte del problema oppure anche non non sei pazzo che non
+1:08:10
+arrivi a fine mese. Questo è il numero che ti inscrive e te
+1:08:15
+non sai. E quindi come punti per iniziare direi
+1:08:39
+che possiamo eh vabbè buttare giù le basi chiare per
+1:08:47
+fare il frontend eccetera. Poi io pensavo, non lo so, di scaricarmi se mi
+1:08:53
+m potete dire, non lo so, un un grafico o comunque dei
+1:09:00
+dei dati da scaricare, io li scarico e poi proprio cerco così da avere dei dati
+1:09:06
+che sono veritieri e non che me li invento io di sra pianta perché sennò
+1:09:11
+dopo mi arrivano i dati veri e hanno una forma completamente diversa. Tutto
+1:09:14
+quello che ho fatto devo buttarlo via. Eh, quindi da lì cerco eh di buttare giù
+1:09:21
+un grafico che sia carino e poi nel frattempo mh qualcuno elabora i dati eh
+1:09:27
+veri, insomma, li prepara e poi li mettiamo sul biografico e si vede il
+1:09:32
+risultato, insomma. Beno questa mi sembra
+1:09:36
+più o meno la maniera migliore di procedere.
+1:09:39
+Credit. Beh, sì, sarebbe ideale trovare il tema
+1:09:46
+nei prossimi 3-4 giorni, fine settimana, in modo tale da poterti, per esempio, su
+1:09:53
+eh questioni di economia, abuso io stesso il termine, ti posso
+1:09:59
+suggerire uno più grafici che secondo me si prestano molto molto bene alla cosa
+1:10:04
+che abbiamo in mente. Se invece vogliamo fare immigrazione o
+1:10:10
+caro affitti, diciamo, ti potresti interfacciare con un con
+1:10:15
+direttamente con loro e per appunto avere un'idea di come strutturare il
+1:10:20
+grafico e quindi magari direi se
+1:10:26
+io metterei come priorità quella di trovare il topic nei prossimi 23 giorni,
+1:10:31
+almeno due o tre topics e poi scegli tu quale
+1:10:43
+Sì, sarebbe interessante trovare i dati essenziali per i vari i vari paper, i
+1:10:51
+vari argomenti. Quindi quello che diceva Corin riguardo agli affitti e riguardo
+1:10:57
+al diciamo al all'overtourism,
+1:11:02
+numero di appartamenti sfitti eh per città, perché poi sono le stesse
+1:11:07
+città che hanno magari 2000 appartamenti sfitti
+1:11:12
+posti a met quadro, tempo medio per che passa tra un avviso di sfratto e e la
+1:11:20
+liberazione dell'appartamento, perché anche quello poi Uma dice che cazzo io
+1:11:24
+lo do a BNB perché se lo do a mio zio Mimmo, poi il mio zio Mimmo
+1:11:31
+comincia a dire "Ma vuoi buttare tuo zio Mimmo in mezzo alla strada e non lo
+1:11:34
+butti più fuori?" e e via dicendo. Son tanti, secondo me,
+1:11:40
+è difficile trovare anche tutti i dati che danno la fotografia esatta del
+1:11:45
+problema e comunque possiamo sempre lavorare in
+1:11:54
+parallelo, cioè magari io faccio in crisativa e qualcun altro fa
+1:12:01
+un altro tempo. cosa abitativa era quella cosa lì che è un po' più univoca,
+1:12:05
+diciamo, un po' più lasciatemi dire che anche meno divisiva,
+1:12:09
+perché poi sul sull'immigrazione si apre un
+1:12:15
+cinema bello bello tosto,
+1:12:22
+perché poi comincia a correlare con i delitti, poi comincia a correlare con i
+1:12:27
+tipi di delitto, poi cominci a correlare con gli indicatori di criminalità,
+1:12:33
+povertà, microcriminalità, costo a quel punto poi sul costo degli appartamenti a
+1:12:38
+metro quadro nelle zone in cui è cresciuta l'immigrazione
+1:12:44
+e quindi alla fine Corinna viene servita con il suo
+1:12:49
+con con i suoi impatti della dell'immigrazione su determinate zone
+1:12:54
+che diventano più più o meno appetibili. Questo aspetto effettivamente non
+1:13:01
+l'abbiamo approfondito, vi confesso. Però sulla questione degli sfratti
+1:13:05
+avevamo fatto un po' uno studio, vi ritrovo i dati, ce l'abbiamo ai tempi
+1:13:09
+meti di sfratto e sono una cosa che ho volutamente cancellato dalle mia memoria
+1:13:13
+perché sono imbarazzanti, come anche quello che sono i soldi che
+1:13:27
+si prendono i vari Airbnb, cioè quanto è i miliardi che escono dal sistema paese
+1:13:34
+verso piattaforme che di fatto potremmo anche farci da soli, cioè che potrebbe
+1:13:38
+essere una piattaforma di stato per l'irnb italiano di stato,
+1:13:44
+per cui o tu utilizzi l'Airbnb italiano oppure paghi una tassa che è uguale a
+1:13:49
+almeno quello che uscirebbe verso la Airbnb.
+1:13:53
+Ma Madonna, ma te la immagini che ti tocca fare l'accesso con Speed?
+1:13:58
+No, be sei un turista. Tu vai sul portale che è uguale ad Airbnb, solo che
+1:14:01
+è gestito dallo stato italiano e e ti permette anche di tracciare tutto
+1:14:07
+il il sistema con dei prezzi, cioè con le tasse pagate eccetera.
+1:14:17
+Se volete vi scorro delle slide che avevo fatto per crisi imitativa, dove
+1:14:22
+avevo già messo infografiche, tabelle eccetera, così valutate voi direttamente
+1:14:28
+quanto vi torna comodo. Ve le scorro abbastanza veloce. Vedete?
+1:14:35
+Sì, magari linkale anche direttamente sul gruppo se ne era possibile.
+1:14:39
+Scarico il PDF, spero che si conservi la la formattazione.
+1:14:48
+Allora, faccio questo qua,
+1:14:55
+ora. Ok,
+1:15:02
+vabbè. definizioni, quadro del mercato nuobiliare italiano,
+1:15:10
+il famoso grafico che si diceva prima, ehm il tipo di eh famiglie residenti in
+1:15:18
+casa di proprietà e le variazioni che ci sono state.
+1:15:22
+Questa è la mappa che vi dicevo del dell'indice di abitabilità, quindi la
+1:15:27
+rata del mutuo diviso radito medio del nucleo familiare. Questo è l'elenco dei
+1:15:32
+20 comuni italiani più popolosi d'Italia e come si eh scandale.
+1:15:40
+Come vedete sono quasi tutti sopra il 30%.
+1:15:44
+Ce ne sono una buona parte anche sopra il 40%. Qua c'è Firenze ovviamente.
+1:15:50
+Eccola. Si vede chiaramente qual è l'outer su
+1:15:55
+questo grafico. Eh sì, questo è veramente
+1:16:00
+io lo trovo particolarmente espressivo. Eh, anche questo facile da
+1:16:11
+il concetto di mercato nel vabbè e la crescita degli affitti brevi, appunto.
+1:16:18
+Questi sono un po' di numeri sugli affitti brevi. sono molto interessanti
+1:16:22
+perché abbiamo appunto non ce l'abbiamo per tutte le città, quindi questo vi
+1:16:25
+avverto, sarà un dato parziale, però di quelle che ce l'abbiamo c'abbiamo
+1:16:29
+veramente tutto. Ehm,
+1:16:34
+abbiamo questo tipo di effetto qua che però per essere corretti dobbiamo dire
+1:16:40
+essere correlazione e non causazione. Questa è l'unica cosa a cui bisogna
+1:16:44
+stare attenti. Basta che noi si dica che questa freccia è correlazione e non
+1:16:51
+causale e noi siamo in posto e così abbiamo il culo perato sia da chi
+1:16:55
+è pro Airbnb, chi è contro. Ehm
+1:17:02
+eh anche le case popolari, l'ERP sono le case popolari.
+1:17:07
+Questo è il numero di alloggi. Cambiamo. Questo è il numero di alloggi che non
+1:17:12
+sono attivi per via della manutenzione in corso. Questi sono quelli che
+1:17:16
+mancano. Cioè, come vedete, una bella fpa. Questo sarebbe il minimo necessario
+1:17:23
+per soddisfare la domanda di edilizia popolare in Italia. Al momento
+1:17:28
+mezzo milione manca, no? Sì,
+1:17:32
+sì. in più probabilmente ne mancano di più,
+1:17:36
+però non lo sappiamo. Da quello che sappiamo, almeno mezzo milione manca.
+1:17:40
+48.000 che sono quegli scritti perché sono è un gogno la manutenzione o è
+1:17:46
+semplicemente eh sono manutenzione straordinaria,
+1:17:50
+quindi magari è un immobile che è giusto, la necessità di interventi
+1:17:55
+importanti, di ristrutturazione, di adeguamento messa a norma eccetera. E
+1:18:01
+sono lavori lunghi, sono lavori che si dire si inceppano dal punto di vista
+1:18:07
+normativo e mancano i soldi. Come mancano i soldi per quelli nuovi,
+1:18:12
+mancano i soldi per questi 48.000 sfig. son fermi.
+1:18:16
+Esatto, sono laosi.
+1:18:21
+Ehm, lausing sociale è, per chi non lo
+1:18:24
+sapesse, tipo casa popolare, però anziché gratis è un prezzo calmerato,
+1:18:30
+quindi è un prezzo eh proporzionale a quanto tu guadagni, cioè ci sono degli
+1:18:36
+scaglioni per fascia di reddito, viene garantita questo a prezzo agevolato in
+1:18:41
+base a quanto guadagni. Ovviamente, come per la come l'esilizia sociale, come le
+1:18:46
+come le case popolari, tu devi garantire che devi mantenere
+1:18:51
+devi avere un lavoro fisso, devi ci sono tutta una serie di requisiti, se non li
+1:18:55
+rispetti ti mandano via. In Italia ce ne abbiamo il 4% rispetto
+1:19:03
+allo stock immobiliare. Nel resto d'Europa, come vedete, è molto diversa
+1:19:07
+la situazione. Praticamente non in realtà qui non
+1:19:12
+sappiamo esattamente quanti ne abbiamo, diciamo che sarebbero 20.000, quelli
+1:19:17
+noti. Poi Vent,
+1:19:25
+questo forse è meno graficizzabile, meno graficizzabile perché è più un concetto,
+1:19:31
+cioè eh investire tramite il costruire edifici è particolarmente sconveniente
+1:19:39
+in Italia perché non puoi detrarre l'IVA e per tutta una questione di imposte
+1:19:45
+dirette, imposte di trasferimento. Quindi, come risultato, noi facciamo
+1:19:50
+molto poco di il tourent, cioè costruire come forma di
+1:19:56
+investimento, come asset proprio di investimento. Invece in Europa è una
+1:19:59
+forma di investimento che va molto di più e quindi dovremmo farci delle
+1:20:03
+domande sul perché noi lo facciamo. Cioè al privato non conviene investire i
+1:20:08
+propri soldi costruendo edilizia in Italia in questo
+1:20:12
+momento. E beh, ma questa è facile perché è una
+1:20:17
+correlazione abbastanza diretta tra posti in cui puoi costruire, ti conviene
+1:20:22
+costruire, cioè io è ovvio che mi converrebbe costruire in piazza San
+1:20:26
+Pietro, ma è altrettanto ovvio che nessuno mi farà mai costruire in piazza
+1:20:30
+San Pietro. È ovvio che è facilissimo costruire in mezzo alla pianura padana
+1:20:34
+in un campo e altrettanto ovvio che non mi conviene costruire in mezzo alla
+1:20:38
+pianura padana in un campo. Quindi il motivo è presto detto, cioè sia se tu
+1:20:45
+corri vai alla slide precedente dove ci sono le le zone sono tutte zone
+1:20:50
+bellissime città d'arte ma e la correlazione con il con i come dire con
+1:20:56
+i vincoli paesaggistici, vincoli artistici eccetera più che è più che
+1:21:00
+chiara. Stai vedendo tutte le zone in cui se vai a vedere in quelle zone non
+1:21:04
+puoi costruire neanche un fienile che ti legano e ti butta via la chiave.
+1:21:10
+E qua è, diciamo, un po' complicato. Questo sarebbe bello, tra l'altro,
+1:21:14
+poterla avere interrogabile, però probabilmente c'è da scrivere a loro per
+1:21:19
+avere che questa immagine sia voglia ingrandirla, però a vedere tutti i
+1:21:22
+comuni è un casino. Ehm,
+1:21:27
+avanti qui gli studentati che vi dicevo,
+1:21:35
+vabbè, questa è la parte di proposte in realtà, quindi non ci interessa
+1:21:42
+il posto. Fine. Vi mando comunque il PDF sul gruppo.
+1:21:49
+A me in realtà interessano anche le proposte, ma per curiosità.
+1:21:53
+Allora, se volete ve le faccio vedere. No, vbè, ma c adesso non voglio rompere
+1:21:59
+le scatole a tutti sulle proposte. Vai tranquillo, me lo leggo
+1:22:04
+tranquillamente offline. Beh, una una proposta di policy
+1:22:08
+immediata che viene da quanto detto la sottolineava prima Paolo, no? Gli gli
+1:22:12
+studentati e le università si dovrebbero costruire lontano da posti come Firenze,
+1:22:19
+banalmente, no? Oh no, non.
+1:22:23
+Quindi cosa studi? Se studi ingegneria lo puoi studiare anche mezzo alla
+1:22:26
+piandura padana. Se studi arte, magari Firenze un po' meglio che me della
+1:22:31
+Barbagia che era in zona o in è anche vero che secondo me e gli
+1:22:37
+studentati, gli studenti sono chiave per migliorare, per riqualificare
+1:22:45
+i territori. Cioè, noi l'abbiamo vissuto a Genova, al centro storico, quando è
+1:22:48
+iniziato quando aprì architettura ebbe un un impulso pazzesco e passò nel
+1:22:55
+giro di qualche mese dall'essere il centro storico di Di Andrè malfamato con
+1:23:02
+la gente che ti rapinava ogni angolo di strada a essere
+1:23:07
+il fulcro della vita cittadina. Poi per attraversare una piazza a distanza di un
+1:23:13
+anno da un minuto è passato un'ora perché non riuscivi a muoverti e chi
+1:23:17
+aveva le le case poi è finito per rimpiangere i
+1:23:22
+tossici sotto casa, perciò vabbè almeno non rompevano le palle fino alle 4:00
+1:23:27
+del mattino, quindi ogni cosa è è ha degli aspetti positivi, aspetti
+1:23:32
+negativi, però sicuramente è chiaro che utilizzare magari gli studenti per
+1:23:39
+migliorare dei territori, utilizzare delle zone poco meno appetibili per
+1:23:43
+creare delle dei campus, per delle strutture è un'opzione, però il problema
+1:23:49
+sono anche i residenti. Eh,
+1:23:53
+però sì, questa è più un'indicazione di policy per il policy.
+1:23:57
+Questa in particolare. Poi potresti anche mettere la tassa di
+1:24:01
+soggiorno proporzionale. Primo giorno è €100, secondo giorno €50
+1:24:07
+e e dalo giorno in poi va a zero. Quindi se sei un turista devi pagare
+1:24:14
+€100 al giorno pronti via solo per venire a stare da me. Se ci lavori
+1:24:18
+questi €100 poi alla fine ti ti accorgi che sono tipo €1 al giorno. è
+1:24:24
+è meno della della tassa normale, ma solo se ci stai parecchio.
+1:24:35
+Sì, ovviamente in quanto policy mh non è particolarmente approfondito
+1:24:41
+perché è a livello di position paper, quindi diamo una direzione, però non
+1:24:46
+penso che per data serva niente di più, al massimo
+1:24:52
+appunto un a riflettere sul punto chiave,
+1:24:57
+poi basta. Totalmente. Sarebbe sarebbe sicuramente un casino,
+1:25:02
+almeno secondo me, andare su quell'altro discorso lì, policy o tutto quello che
+1:25:10
+di nuovo si abusa la parola sia in un certo senso non complesso, ma non
+1:25:14
+estremamente banale a chiunque, insomma,
+1:25:21
+chiunque possa votare un partito come ora. Ecco,
+1:25:27
+sei concordo. Io non so voi, ma la chiuderei anche
+1:25:43
+qui. No, scusa. Posso
+1:25:50
+adesso mi sto studiando slide io, sono già passato. Yeah
+
+Second piece of the call
+
+0:00
+idea di creare Hai rimesso la registrazione per
+0:07
+Sì. Io volevo salvare la Quindi secondo me potrebbe essere
+0:11
+intanto trovare un un posto dove buttare roba,
+0:15
+una scatola di scatole, che sia un sito, che sia anche la nostra chat, va bene?
+0:21
+definire una scatola per ogni argomento e poi cominciare ognuno a buttare dentro
+0:26
+fonti fonti buon ovviamente, cioè
+0:31
+più buone sono e meglio è. Comunque le controlliamo. Certo che se arriva dal
+0:34
+Ministero o dall'Istato, tranquilli. Se arriva da non ce lo
+0:40
+dicono, non codicono.com.org, Org, magari uno fa una pensata più sulla
+0:46
+attendibilità e sulle fonti a priori c'è già una repository comunque, quindi
+0:51
+volendo, cioè lo schifo che avevo di codice che
+0:57
+avevo utilizzato io per fare l'esempio e poi c'è una cartella con chiamata doc
+1:01
+dove ho infilato alcune in drive eh no su Gitab e e ora metto nuovamente
+1:09
+i link nel gruppo e li pinno così sono salvati. lì e poi c'è il Redmi e una
+1:15
+cartella di fil temporanei che non si salvano se uno li mette lì perché io ce
+1:18
+l'avevo presi appunti una volta e ma poi chiunque benvenuti a modificare quella,
+1:25
+infilare la roba dentro, iniziarla a utilizzare per cancellare anche tanto
+1:29
+poi rimane, no? le cose che avevo messo io. Ehm,
+1:35
+in generale secondo me più che caricare file meglio caricare link in modo che
+1:41
+così almeno sia chiaro A da dove arrivano subito e B uno li può anche
+1:48
+potrebbero anche cambiare perché magari ha lo stesso link
+1:53
+l'Istat ricarica o aggiunge o aggrega o fa altre
+1:58
+robe. Mi vai secco sul link. E poi anche sarebbe carino una dashboard
+2:05
+sempre quel cioè nella scatola dell'argomento.
+2:10
+Boh, indesiderata. Vorrei un grafico che mi facesse vedere così. Intanto facciamo
+2:15
+un approccio bot e top down, cioè da quello che abbiamo e quello che che
+2:20
+vorremmo e poi voi che siete intelligenti, soprattutto se conoscete
+2:24
+anche gli strumenti, vi vi vi
+2:28
+divertite a buttare dentro questa cosa qua, cioè tirare fuori poi da dal
+2:34
+numero, tirare fuori un grafico che chiarisca
+2:39
+la situazione. io. Scusatemi, ma adesso devo andare.
+2:50
+Ciao a tutti, direi ciao. Ciao.
+2:54
+Anch'io direi che vai. Grande, ho messo attacco, quindi
+2:59
+adesso dai, saltiamo.
+3:02
+Grandi. Dai, ci aggiorniamo nella ci aggiorniamo nella chat. Allora, dai,
+3:06
+dai. Va bene. Ciao. Buona serata. Bye bye
+3:09
+grande.

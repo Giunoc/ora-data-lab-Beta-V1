@@ -1,0 +1,19 @@
+Recap 1st call Data Lab di ORA - 23rd December 2026
+
+Aspetti che non sono stati -- e non possono essere -- definiti in assenza di un confronto con i gruppi tematici e, soprattutto, con la Segreteria:
+- Risorsa per gli associati o data lab pubblico?*
+- Ambiti tematici da coprire (es. 6 campagne per il 2026; temi su cui si sta già lavorando a dataset interni, come Bilancio Pubblico ed Energia)
+- Livello e tipologia di contenuti per ciascuna tematica
+
+Proposta: iniziare a lavorare a un MVP su Caro Affitti (Corinna ha redatto il relativo PP) -- o Immigrazione -- da presentare alla segreteria e ai gruppi tematici come base di confronto.
+
+
+Aspetti _non-tecnici_ ancora da definire:
+- Focus quiz (integrare i grafici nella spiegazione alle domande dei quiz), focus grafici (Tenere i quiz, e le relative spiegazioni, separati dalla pagina principale)?
+- Commento ai grafici: articoli integrati nella pagina (owid style), brevi commenti automatici che accompagnino l’utente durante l’esplorazione.
+
+
+Aspetti tecnici da definire quanto prima:
+- Selezione e priorità delle fonti
+- Gestire l'instabilità delle API (memorizzazione, caching, meccanismi di fallback, frequenza di aggiornamento, etc.)
+- Scelta e uniformazione degli stack/language frontend
