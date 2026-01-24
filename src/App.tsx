@@ -1,9 +1,13 @@
+import { Routes, Route } from "react-router";
+import Home from "./pages/Home";
+import DesignSystem from "./pages/DesignSystem";
+
 function App() {
   return (
-    <>
-      things here
-      <p className="text-red-500">Tailwind is working</p>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/design-system" element={<DesignSystem />} />
+    </Routes>
   );
 }
 
