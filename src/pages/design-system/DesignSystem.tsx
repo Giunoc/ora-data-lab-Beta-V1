@@ -2,13 +2,13 @@ import TopicCard from "../../components/TopicCard";
 
 export default function DesignSystem() {
   return (
-    <div className="bg-background min-h-screen p-8">
+    <div className="min-h-screen bg-background p-8">
       {/* Header */}
       <header className="mb-12 text-center">
-        <h1 className="text-text-primary mb-2 text-4xl font-bold">
+        <h1 className="mb-2 text-4xl font-bold text-text-primary">
           ORA! Design System
         </h1>
-        <p className="text-text-secondary text-lg">
+        <p className="text-lg text-text-secondary">
           Palette colori e componenti del brand
         </p>
       </header>
@@ -16,7 +16,7 @@ export default function DesignSystem() {
       <main className="mx-auto max-w-6xl space-y-12">
         {/* Primary & Secondary Colors */}
         <section>
-          <h2 className="text-text-primary mb-6 text-2xl font-bold">
+          <h2 className="mb-6 text-2xl font-bold text-text-primary">
             Colori Principali
           </h2>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -51,7 +51,7 @@ export default function DesignSystem() {
 
         {/* Surface & Background Colors */}
         <section>
-          <h2 className="text-text-primary mb-6 text-2xl font-bold">
+          <h2 className="mb-6 text-2xl font-bold text-text-primary">
             Superfici & Sfondi
           </h2>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -86,38 +86,38 @@ export default function DesignSystem() {
 
         {/* Text Colors */}
         <section>
-          <h2 className="text-text-primary mb-6 text-2xl font-bold">
+          <h2 className="mb-6 text-2xl font-bold text-text-primary">
             Colori Testo
           </h2>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="bg-surface border-border rounded-xl border p-6">
-              <p className="text-text-primary mb-2 text-lg font-semibold">
+            <div className="rounded-xl border border-border bg-surface p-6">
+              <p className="mb-2 text-lg font-semibold text-text-primary">
                 Text Primary
               </p>
               <p className="text-text-primary">
                 Testo principale per titoli e contenuti importanti.
               </p>
-              <code className="text-text-secondary mt-2 block text-sm">
+              <code className="mt-2 block text-sm text-text-secondary">
                 --color-text-primary
               </code>
             </div>
-            <div className="bg-surface border-border rounded-xl border p-6">
-              <p className="text-text-secondary mb-2 text-lg font-semibold">
+            <div className="rounded-xl border border-border bg-surface p-6">
+              <p className="mb-2 text-lg font-semibold text-text-secondary">
                 Text Secondary
               </p>
               <p className="text-text-secondary">
                 Testo secondario per descrizioni e caption.
               </p>
-              <code className="text-text-secondary mt-2 block text-sm">
+              <code className="mt-2 block text-sm text-text-secondary">
                 --color-text-secondary
               </code>
             </div>
-            <div className="bg-secondary rounded-xl p-6">
-              <p className="text-text-inverse mb-2 text-lg font-semibold">
+            <div className="rounded-xl bg-secondary p-6">
+              <p className="mb-2 text-lg font-semibold text-text-inverse">
                 Text Inverse
               </p>
               <p className="text-text-inverse">Testo chiaro su sfondi scuri.</p>
-              <code className="text-text-inverse/70 mt-2 block text-sm">
+              <code className="mt-2 block text-sm text-text-inverse/70">
                 --color-text-inverse
               </code>
             </div>
@@ -126,7 +126,7 @@ export default function DesignSystem() {
 
         {/* Feedback Colors */}
         <section>
-          <h2 className="text-text-primary mb-6 text-2xl font-bold">
+          <h2 className="mb-6 text-2xl font-bold text-text-primary">
             Colori Feedback
           </h2>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -163,23 +163,23 @@ export default function DesignSystem() {
 
         {/* Button Examples */}
         <section>
-          <h2 className="text-text-primary mb-6 text-2xl font-bold">
+          <h2 className="mb-6 text-2xl font-bold text-text-primary">
             Esempi Pulsanti
           </h2>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-primary hover:bg-primary-hover text-text-primary rounded-lg px-6 py-3 font-semibold transition-colors">
+            <button className="rounded-lg bg-primary px-6 py-3 font-semibold text-text-primary transition-colors hover:bg-primary-hover">
               Pulsante Primario
             </button>
-            <button className="bg-secondary hover:bg-secondary-hover text-text-inverse rounded-lg px-6 py-3 font-semibold transition-colors">
+            <button className="rounded-lg bg-secondary px-6 py-3 font-semibold text-text-inverse transition-colors hover:bg-secondary-hover">
               Pulsante Secondario
             </button>
-            <button className="border-secondary hover:bg-secondary hover:text-text-inverse text-text-primary rounded-lg border-2 bg-transparent px-6 py-3 font-semibold transition-colors">
+            <button className="rounded-lg border-2 border-secondary bg-transparent px-6 py-3 font-semibold text-text-primary transition-colors hover:bg-secondary hover:text-text-inverse">
               Outline
             </button>
-            <button className="bg-success rounded-lg px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90">
+            <button className="rounded-lg bg-success px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90">
               Conferma
             </button>
-            <button className="bg-error rounded-lg px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90">
+            <button className="rounded-lg bg-error px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90">
               Elimina
             </button>
           </div>
@@ -187,7 +187,7 @@ export default function DesignSystem() {
 
         {/* Card Example */}
         <section>
-          <h2 className="text-text-primary mb-6 text-2xl font-bold">
+          <h2 className="mb-6 text-2xl font-bold text-text-primary">
             Esempio Card
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -208,7 +208,7 @@ export default function DesignSystem() {
       </main>
 
       {/* Footer */}
-      <footer className="border-border mt-16 border-t py-8 text-center">
+      <footer className="mt-16 border-t border-border py-8 text-center">
         <p className="text-text-secondary">
           <strong className="text-text-primary">ORA! Data Lab</strong> — Design
           System Demo
@@ -237,14 +237,14 @@ function ColorCard({
 }: ColorCardProps) {
   return (
     <div
-      className={`overflow-hidden rounded-xl ${bordered ? "border-border border" : ""}`}
+      className={`overflow-hidden rounded-xl ${bordered ? "border border-border" : ""}`}
     >
       <div className={`${bgClass} flex h-24 items-end p-3`}>
         <span className={`${textClass} text-sm font-semibold`}>{name}</span>
       </div>
-      <div className="bg-surface border-border border-t p-3">
-        <p className="text-text-secondary text-sm">{description}</p>
-        <code className="text-text-secondary mt-1 block text-xs">{cssVar}</code>
+      <div className="border-t border-border bg-surface p-3">
+        <p className="text-sm text-text-secondary">{description}</p>
+        <code className="mt-1 block text-xs text-text-secondary">{cssVar}</code>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export default function Home() {
 
       {/* Main Content */}
       <section className="mx-auto max-w-6xl px-4 py-12">
-        <p className="text-text-secondary mb-12 text-center">
+        <p className="mb-12 text-center text-text-secondary">
           Una piattaforma interattiva per capire l'Italia oltre i luoghi comuni.
         </p>
 
