@@ -1,4 +1,4 @@
-import TopicCard from "../components/TopicCard";
+import TopicCard from "../../components/TopicCard";
 
 export default function DesignSystem() {
   return (
